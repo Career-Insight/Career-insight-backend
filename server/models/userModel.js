@@ -3,9 +3,18 @@ const validator = require("validator");
 const bcrypt = require("bcrypt")
 
 const userSchema = new mongoose.Schema({
-    userName : {
+    firstName : {
         type: String,
         required : [true, "You must provide a name"],
+    },
+    lastName : {
+        type: String,
+        required : [true, "You must provide a name"],
+    },
+    phone : {
+        type : String,
+        match:/^(01)(1|2|0|5)\d{8}$/,
+        required : [true, "You must provide a phone number"],
     },
     email : {
         type: String,
@@ -34,6 +43,17 @@ const userSchema = new mongoose.Schema({
             message: "Passwords are not the same!",
         }
     },
+    profile: {
+        // You can add various fields for the user's profile, such as age, gender, address, etc.
+        age: Number,
+        gender: String,
+        address: String,
+    },
+    avatar: {
+        type: String,
+        // You can store the path or URL to the user's avatar image.
+        // You may want to consider using a file storage service to store the actual image.
+    },
     createdAt: Date,
 })
 
@@ -55,6 +75,11 @@ userSchema.pre("save", function (next) {
 userSchema.methods.correctPassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password)
 }
+
+// Define a custom validation function for checking if the phone number starts with '01' (Egyptian mobile phone prefix)
+userSchema.path('phone').validate(function validatePhone () {
+    return this.phone.startsWith('01');
+}, 'Please provide a valid Egyptian mobile phone number.')
 
 
 const User = mongoose.model("User", userSchema);

@@ -9,9 +9,10 @@ const createToken = ({ payload }) => {
 
 //neededPayload
 const neededPayload = (data) => {
+    const fullName = `${data.firstName} ${data.lastName}`
     return {
         userId: data._id,
-        userName: data.userName
+        userName: fullName
     }
 }
 

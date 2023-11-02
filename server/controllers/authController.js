@@ -13,20 +13,24 @@ const {
 //register
 const register = async (req, res) => {
     //take data from request
-    const {userName, email, password, passwordConfirm} = req.body;
+    const {firstName,lastName ,phone ,email, password, passwordConfirm} = req.body;
     //check fields before save user
-    if(!userName || !email || !password || !passwordConfirm) {
+    if(!firstName || !lastName || !phone || !email || !password || !passwordConfirm) {
         throw new CustomError.BadRequestError("All fields must be provide")
     }
 
     //save user
     try {
         const newUser = await User.create({
-            userName,
+            firstName,
+            lastName,
+            phone,
             email,
             password,
             passwordConfirm,
-            createdAt: new Date(Date.now())
+            createdAt: new Date(Date.now()),
+            //profile,
+            //avatar
         });
         //create token and attach cookie
         const payload = neededPayload(newUser);
