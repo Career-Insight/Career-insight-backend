@@ -1,0 +1,220 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Talent Bridge",
+        "description": "Graduation Project",
+        "version": "0.1.5"
+    },
+    "servers": [
+        {
+            "url": "http:/localhost:8000/",
+            "description": "develpe server"
+        }
+    ],
+    "components": {
+        "responses": {
+            "UnauthorizedError": {
+                "description": "Access token is missing or invalid",
+                "content": {
+                "application/json": {
+                    "example": {
+                        "error": "Unauthorized",
+                        "message": "Access token is missing or invalid"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+            },
+            "OAuth2":{
+                "type": "oauth2",
+                "flows": {
+                    "authorizationCode": {
+                        "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
+                        "tokenUrl": "https://oauth2.googleapis.com/token",
+                        "scopes": {
+                            "openapi": "OpenID scope"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/": {
+            "get":{
+                "summary": "sent page : landing page (welcome page)",
+                "responses": {
+                    "234": {
+                        "description": "landing page"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/register": {
+            "post":{
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Register a new user",
+                "requestBody": {
+                    "description": "User registration request",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "firstName":{
+                                        "type": "string",
+                                        "required": true
+                                    },
+                                    "lastName": {
+                                        "type": "string",
+                                        "required": true
+                                    },
+                                    "email":{
+                                        "type": "string",
+                                        "required": true,
+                                        "uniqueItems": true
+                                    },
+                                    "phone": {
+                                        "type": "number",
+                                        "required": true
+                                    },
+                                    "password":{
+                                        "type": "string",
+                                        "required": true
+                                    },
+                                    "passwordConfirm": {
+                                        "type": "string",
+                                        "required": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "User registered/created successfully"
+                    },
+                    "401":{
+                        "description": "Bad request, user registration failed",
+                        "$ref": "#/components/responses/UnauthorizedError" 
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/login": {
+            "post": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "login user",
+                "requestBody" :{
+                    "description": "User login request",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "email":{
+                                        "type": "string",
+                                        "required": true,
+                                        "uniqueItems": true
+                                    },
+                                    "password":{
+                                        "type": "string",
+                                        "required": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "User login successfully"
+                    },
+                    "401":{
+                        "description": "Bad request, user login failed",
+                        "$ref": "#/components/responses/UnauthorizedError" 
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/logout": {
+            "get":{
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "logout user",
+                "responses": {
+                    "200":{
+                        "description": "successfully logged out.",
+                        "content": {
+                            "application/json": {
+                                "example":{
+                                    "message": "Logged out successfully"
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description": "Bad request, user logout failed",
+                        "$ref": "#/components/responses/UnauthorizedError" 
+                    }
+                }
+            }
+        },
+        "/auth/google":{
+            "get":{
+                "summary": "Secure Endpoint",
+                "description": "Endpoint secured with OAuth 2.0 using Google as the provider.",
+                "security": [
+                    {
+                        "OAuth2":[
+                            "openapi"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Successfully accessed secure endpoint.",
+                        "content": {
+                            "application/json":{
+                                "example":{
+                                    "message": "Secure endpoint accessed successfully."
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description": "Unauthorized. Authentication failed.",
+                        "content": {
+                            "application/json":{
+                                "example":{
+                                    "error": "Unauthorized",
+                                    "message": "Authentication failed. Please check your credentials."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

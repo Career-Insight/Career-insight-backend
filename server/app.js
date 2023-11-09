@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser")
 const swaggerUi = require('swagger-ui-express');
-//const swaggerDocument = require("./swagger.json")
+const swaggerDocument = require("./swagger.json")
 
 
 require('./config/db')
@@ -32,7 +32,7 @@ const oauthFacebookRoute = require('./routes/oauthRoute-facebook')
 const oauthLinkedinRoute = require('./routes/oauthRoute-linkedin')
 
 //API Documentation
-//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //Application
 app.use(express.json());
