@@ -55,6 +55,12 @@ passport.serializeUser(function (user, done) {
     done(null, user);
 });
 
-passport.deserializeUser(function (user, done) {
-    done(null, user);
+passport.deserializeUser(function(id, done) {
+    OAuthData.findById(id)
+    .then(user => {
+        done(null, user);
+    })
+    .catch(err => {
+        done(err, null);
+    });
 });

@@ -1,9 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const passport = require('passport');
-require('../controllers/oauthcontroller')
+require('../controllers/oauthController-linkedin')
 
-//function (middeleware) to checks if a user is logged in or not
 function isLoggedIn(req, res, next) {
     req.user ? next() : res.sendStatus(401) ;
 
@@ -11,20 +10,16 @@ function isLoggedIn(req, res, next) {
 
 
 router.get('/', (req, res)=> {
-    res.send('<a href="/auth/google">Authenticate with Google </a>');
+    res.send('<a href="/auth/linkedin">Authenticate with linkedin </a>');
 })
 
-router.get('/auth/google',
-    passport.authenticate('google', {scope: [
-        'email',
-        'profile',
-    ]})
-)
+router.get('/auth/linkedin',
+    passport.authenticate('linkedin',{ state: 'SOME STATE'  }));
 
-router.get('/google/callback',
-    passport.authenticate('google', {
+router.get('/linkedin/callback',
+    passport.authenticate('linkedin', {
         successRedirect: '/protected',
-        failureRedirect: '/auth/failure'
+        failureRedirect: '/auth/failure' //return to login 
     })
 )
 
@@ -39,8 +34,8 @@ router.get('/protected', isLoggedIn ,(req, res)=> {
 router.get('/logout', function(req, res, next) {
     req.logout(function(err) {
         if (err) { return next(err); }
-        res.send('Goodbye');
+        res.redirect('/')
     });
 });
 
-module.exports = router 
+module.exports = router

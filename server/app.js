@@ -4,6 +4,9 @@ const passport = require('passport');
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser")
+const swaggerUi = require('swagger-ui-express');
+//const swaggerDocument = require("./swagger.json")
+
 
 require('./config/db')
 dotenv.config();
@@ -24,7 +27,12 @@ const errorHandlerMiddleware = require("./middlewares/errorHandlers")
 //ROUTES
 const dummyRouter = require("./routes/dummeyRoute")
 const authRouter = require("./routes/authRoutes")
-const oauthRoute = require('./routes/oauthRoute')
+const oauthGoogleRoute = require('./routes/oauthRoute-google')
+const oauthFacebookRoute = require('./routes/oauthRoute-facebook')
+const oauthLinkedinRoute = require('./routes/oauthRoute-linkedin')
+
+//API Documentation
+//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //Application
 app.use(express.json());
@@ -34,7 +42,9 @@ app.use(passport.initialize());
 app.use(passport.session())
 app.use("/api/v1/test",dummyRouter)
 app.use("/api/v1/auth",authRouter)
-app.use(oauthRoute)
+app.use(oauthGoogleRoute)
+//app.use(oauthFacebookRoute)
+//app.use(oauthLinkedinRoute)
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
