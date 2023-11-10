@@ -6,7 +6,7 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser")
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require("./swagger.json")
-
+const bodyParser = require('body-parser')
 
 require('./config/db')
 dotenv.config();
@@ -36,6 +36,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //Application
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(cookieParser(process.env.JWT_SECRET))
 app.use(session({ secret: process.env.SECRET }));
 app.use(passport.initialize());
