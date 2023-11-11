@@ -7,6 +7,8 @@ const cookieParser = require("cookie-parser")
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require("./swagger.json")
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose');
+const connectMongo = require('connect-mongo')
 
 require('./config/db')
 dotenv.config();
@@ -35,10 +37,16 @@ const oauthLinkedinRoute = require('./routes/oauthRoute-linkedin')
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //Application
+const MongoStore = connectMongo(session);
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser(process.env.JWT_SECRET))
-app.use(session({ secret: process.env.SECRET }));
+app.use(session({
+    secret: process.env.SECRET,
+    resave: true,
+    saveUninitialized: true,
+    store : new MongoStore({ mongooseConnection: mongoose.connection })
+}));
 app.use(passport.initialize());
 app.use(passport.session())
 app.use("/api/v1/test",dummyRouter)

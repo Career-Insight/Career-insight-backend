@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors/index")
+const { sendVerificationEmail } = require('../controllers/verificationController')
 
 const {
     createToken,
@@ -32,11 +33,20 @@ const register = async (req, res) => {
             //profile,
             //avatar
         });
+
+        // Save the user's email in the session
+        req.session.email = newUser.email;
+
+        // Send verification email after successful registration
+
+        await sendVerificationEmail(newUser)
+
         //create token and attach cookie
         const payload = neededPayload(newUser);
         attachCookieToResponse({ res, payload });
         res.status(StatusCodes.CREATED).json({ user: payload });
     } catch (err) {
+        console.error('Error during registration:', err);
         return handleRegistrationError(err, res);
     }
 }

@@ -54,6 +54,11 @@ const userSchema = new mongoose.Schema({
         // You can store the path or URL to the user's avatar image.
         // You may want to consider using a file storage service to store the actual image.
     },
+    verificationCode: String,
+    isVerified: {
+        type: Boolean,
+        default: false 
+    },
     createdAt: Date,
 })
 
