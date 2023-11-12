@@ -113,6 +113,43 @@
                 }
             }
         },
+        "/api/v1/auth/verify":{
+            "post": {
+                "summary": "check user email & send verification code to user email",
+                "requestBody": {
+                    "description":"verification code request",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type":"object",
+                                "properties": {
+                                    "verificationCode":{
+                                        "type":"string",
+                                        "required": true,
+                                        "uniqueItems": true
+                                    },
+                                    "email":{
+                                        "description":"Retrieve the email from the session",
+                                        "type": "string",
+                                        "required": true,
+                                        "uniqueItems": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "Email verification successful. User now has access."
+                    },
+                    "400": {
+                        "description": "Error during email verification"
+                    }
+                }
+            }
+        },
         "/api/v1/auth/login": {
             "post": {
                 "security": [
