@@ -2,6 +2,10 @@ const User = require("../models/userModel");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors/index")
 const { sendVerificationEmail } = require('../controllers/verificationController')
+const Logger = require('../services/loggerServices')
+
+const logger = new Logger('Login')
+const logoutLogger = new Logger('Logout')
 
 const {
     createToken,
@@ -53,26 +57,42 @@ const register = async (req, res) => {
 
 //Login
 const login = async (req, res) => {
-    //take data from request
-    const { email, password } = req.body
-    //check fields before get user email
-    if(!email || !password) {
-        throw new CustomError.BadRequestError("All fields must be provided");
+    try {
+        
+        //take data from request
+        const { email, password } = req.body
+        //check fields before get user email
+        if(!email || !password) {
+            throw new CustomError.BadRequestError("All fields must be provided");
+        }
+        //find user email
+        const user = await User.findOne({ email });
+        //check user email
+        if(!user) {
+            throw new CustomError.NotFoundError("No user with this Email")
+        }
+    
+        // Check if the email is verified
+        if(!user.isVerified){
+            throw new CustomError.UnauthorizedError("Email is not verified. Please verify your email to log in.");
+        }
+    
+        //compare password
+        const isMatch = await user.correctPassword(password)
+        if(!isMatch) {
+            throw new CustomError.UnauthorizedError("Wrong password");
+        }
+        const payload = neededPayload(user);
+        attachCookieToResponse({ res, payload });
+        res.status(StatusCodes.OK).json({ user: payload });
+
+        // Log success
+        logger.info('Login successful', { email: user.email });
+    } catch (error) {
+        // Log errors
+        logger.error('Login failed', { error: error.message });
+        res.status(StatusCodes.UNAUTHORIZED).json("No user with this Email")
     }
-    //find user email
-    const user = await User.findOne({ email });
-    //check user email
-    if(!user) {
-        throw new CustomError.NotFoundError("No user with this Email")
-    }
-    //compare password
-    const isMatch = await user.correctPassword(password)
-    if(!isMatch) {
-        throw new CustomError.UnauthorizedError("Wrong password");
-    }
-    const payload = neededPayload(user);
-    attachCookieToResponse({ res, payload });
-    res.status(StatusCodes.OK).json({ user: payload });
 }
 
 //Logout
@@ -80,6 +100,7 @@ const logout = (req, res) => {
     // Clear the authentication token from the client's cookie
     res.clearCookie('token');
     res.status(StatusCodes.OK).json({ message: 'Logged out successfully.' });
+    logoutLogger.info('user logout successfully')
     //res.redirect('/') home page
 };
 

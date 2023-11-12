@@ -26,3 +26,8 @@
 #### MONGO_URL
 #### JWT_SECRET
 #### JWT_LIFETIME
+#### GOOGLE_CLIENT_ID
+#### GOOGLE_CLIENT_SECRET
+#### SECRET : for passport 
+#### EMAIL, APP_PASSWORD :   for nodemiler implementation
+#### LOG_FILE_PATH

@@ -1,0 +1,4 @@
+ 11/12/2023 | INFO | Login successful data {"email":"leo@gmail.com"} |
+ 11/12/2023 | ERROR | Login failed data {"error":"No user with this Email"} |
+ 11/12/2023 | ERROR | Login failed data {"error":"No user with this Email"} |
+ 11/12/2023 | INFO | user logout successfully 
