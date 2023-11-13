@@ -8,3 +8,8 @@ npm  install
 ```
 npm run start:dev
 ```
+
+## run test
+```
+npm test path/to/testfile.test.js
+```
