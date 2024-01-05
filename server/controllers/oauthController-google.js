@@ -1,5 +1,5 @@
 const passport = require("passport");
-const OAuthData = require("../models/OAuthUserModel");
+const User = require("../models/userModel");
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 require("dotenv").config();
 
@@ -17,14 +17,14 @@ passport.use(
     async function (request, accessToken, refreshToken, profile, done) {
         try {
             // Use async/await to work with Mongoose promises.
-            let oauthUser = await OAuthData.findOne({
+            let user = await User.findOne({
             providerId: profile.id,
             provider: "google",
             });
 
             // If the OAuth user doesn't exist, create a new one.
-            if (!oauthUser) {
-            oauthUser = new OAuthData({
+            if (!user) {
+            user = new User({
                 provider: "google",
                 providerId: profile.id,
                 accessToken: accessToken,
@@ -37,13 +37,13 @@ passport.use(
             });
             } else {
             // If the user already exists, update the access token and any other necessary fields.
-            oauthUser.accessToken = accessToken;
+            user.accessToken = accessToken;
             // Update other user-specific fields if needed.
-            oauthUser.gender = profile.gender;
+            user.gender = profile.gender;
             }
 
-            await oauthUser.save();
-            return done(null, oauthUser);
+            await user.save();
+            return done(null, user);
         } catch (err) {
             return done(err);
         }
@@ -56,7 +56,7 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-    OAuthData.findById(id)
+    User.findById(id)
     .then(user => {
         done(null, user);
     })

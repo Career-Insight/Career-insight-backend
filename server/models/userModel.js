@@ -14,7 +14,10 @@ const userSchema = new mongoose.Schema({
     phone : {
         type : String,
         match:/^(01)(1|2|0|5)\d{8}$/,
-        required : [true, "You must provide a phone number"],
+        required : [function() {
+            // Require phone only for local users
+            return this.provider !== 'google';
+        }, "You must provide a phone number"],
     },
     email : {
         type: String,
@@ -23,19 +26,29 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         validate: [validator.isEmail,"Please provide a valid email!"],
     },
+    //OAuth data 
+    provider: String,
+    providerId: String,
+    accessToken: String,
     //profile and avatar here later
     password: {
         type: String,
-        required: [true, "You must provide a password "],
+        required: [function () {
+            // Require password only for local users
+            return this.provider !== 'google';
+        }, "You must provide a password "],
         match: [
           /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/, //Minimum six characters, at least one letter and one number
         "Please provide a valid password",
-        ],
+    ],
         select: true,
     },
     passwordConfirm: {
         type: String,
-        required: [true, "Please confirm your password"],
+        required: [function() {
+            // Require passwordConfirm only for local users
+            return this.provider !== 'google';
+        }, "Please confirm your password"],
         validate: {
             validator: function (el) {
                 return el === this.password;

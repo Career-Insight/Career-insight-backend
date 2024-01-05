@@ -1,5 +1,5 @@
 const passport = require('passport')
-const OAuthData = require("../models/OAuthUserModel");
+const User = require('../models/userModel');
 const FacebookStrategy = require('passport-facebook');
 require("dotenv").config();
 
@@ -15,13 +15,13 @@ passport.use(new FacebookStrategy({
     async function(accessToken, refreshToken, profile, done) {
         try {
 
-            let oauthUser = await OAuthData.findOne({
+            let user = await User.findOne({
                     providerId: profile.id,
                     provider: "facebook",
             });
 
-            if(!oauthUser) {
-                oauthUser = new OAuthData({
+            if(!user) {
+                user = new User({
                     provider: "facebook",
                     providerId: profile.id,
                     accessToken: accessToken,
@@ -30,7 +30,7 @@ passport.use(new FacebookStrategy({
                     email: profile.emails[0].value,
                     gender: profile.gender,
                 })
-                await oauthUser.save()
+                await user.save()
                 return done(null, oauthUser)
             }else {
                 // If the user already exists, update the access token and any other necessary fields.
@@ -51,7 +51,7 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-    OAuthData.findById(id)
+    User.findById(id)
     .then(user => {
         done(null, user);
     })
