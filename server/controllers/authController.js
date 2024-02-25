@@ -4,8 +4,9 @@ const CustomError = require("../errors/index")
 const { sendVerificationEmail } = require('../controllers/verificationController')
 const Logger = require('../services/loggerServices')
 
-const logger = new Logger('Login')
-const logoutLogger = new Logger('Logout')
+const registerLogger = new Logger({ log:'Register User' })
+const loginLogger = new Logger({ log:'Login User' })
+const logoutLogger = new Logger({ log:'Logout User' })
 
 const {
     createToken,
@@ -48,9 +49,11 @@ const register = async (req, res) => {
         //create token and attach cookie
         const payload = neededPayload(newUser);
         attachCookieToResponse({ res, payload });
+        await registerLogger.info('Register successfuly', payload)
         res.status(StatusCodes.CREATED).json({ user: payload });
     } catch (err) {
         console.error('Error during registration:', err);
+        await registerLogger.error('Register failed', {err: err.message})
         return handleRegistrationError(err, res);
     }
 }
@@ -87,10 +90,10 @@ const login = async (req, res) => {
         res.status(StatusCodes.OK).json({ user: payload });
 
         // Log success
-        logger.info('Login successful', { email: user.email });
+        await loginLogger.info('Login successful', { email: user.email });
     } catch (error) {
         // Log errors
-        logger.error('Login failed', { error: error.message });
+        loginLogger.error('Login failed', { error: error.message });
         res.status(StatusCodes.UNAUTHORIZED).json("No user with this Email")
     }
 }

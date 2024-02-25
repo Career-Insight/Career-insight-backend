@@ -3,13 +3,11 @@ const User = require('../models/userModel')
 const CustomError = require('../errors/index')
 const { StatusCodes } = require('http-status-codes')
 const dotenv = require("dotenv");
-const winston = require('winston');
-const logger = winston.createLogger({
-    transports: [
-        new winston.transports.Console(),
-        new winston.transports.File({ filename: 'logs/error.log' })
-    ]
-})
+const Logger = require('../services/loggerServices');
+
+const verifyLogger = new Logger({ log:'verify User' })
+
+
 
 dotenv.config();
 
@@ -52,11 +50,6 @@ const verify = async (req, res) => {
     const { verificationCode } = req.body;
     const email = req.session.email; // Retrieve the email from the session
 
-    console.log('Request Body:', req.body); // Log the entire request body
-
-    console.log('Email:', email);
-    console.log('Verification Code:', verificationCode);
-
     try {
         const user = await User.findOneAndUpdate(
             { email, verificationCode},
@@ -64,7 +57,7 @@ const verify = async (req, res) => {
             { new: true }
         )
 
-        console.log('findOneAndUpdate Result:', user);
+        
 
         if(!user){
             return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Invalid verification code' });
@@ -73,10 +66,10 @@ const verify = async (req, res) => {
         // Clear the email from the session
         delete req.session.email;
 
-        logger.info('Verification success');
+        verifyLogger.info('Verification success');
         res.json({ message: 'Email verification successful. User now has access.' });
     } catch (error) {
-        logger.error('Error during email verification:', error);
+        verifyLogger.error('Error during email verification:', error);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Internal server error during email verification' })
     }
 }
