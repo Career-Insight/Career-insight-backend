@@ -10,6 +10,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const connectMongo = require('connect-mongo')
 const cors = require('cors');
+const helmet = require('helmet')
 
 require('./config/db')
 dotenv.config();
@@ -26,6 +27,7 @@ dotenv.config({ path: "./config.env"});
 //MIDDLEWARES  
 const notFound = require("./middlewares/notFound")
 const errorHandlerMiddleware = require("./middlewares/errorHandlers")
+const limiter = require("./middlewares/rateLimiter")
 
 //ROUTES
 const dummyRouter = require("./routes/dummeyRoute")
@@ -41,6 +43,8 @@ const MongoStore = connectMongo(session);
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(helmet())
+app.use(limiter)
 app.use(cookieParser(process.env.JWT_SECRET))
 app.use(session({
     secret: process.env.SECRET,

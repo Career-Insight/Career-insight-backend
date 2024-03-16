@@ -5,11 +5,19 @@ const bcrypt = require("bcrypt")
 const userSchema = new mongoose.Schema({
     firstName : {
         type: String,
-        required : [true, "You must provide a name"],
+        required : [true, "First name is required"],
+        trim: true,
+        minlength:  [2, "First name must be at least 2 characters long"],
+        maxlength: [15, "First name cannot exceed 50 characters"],
+        match: [/^[a-zA-Z ]*$/, "First name can only contain letters and spaces"]
     },
     lastName : {
         type: String,
-        required : [true, "You must provide a name"],
+        required : [true, "Last name is required"],
+        trim: true,
+        minlength: [2, "Last name must be at least 2 characters long"],
+        maxlength: [50, "Last name cannot exceed 50 characters"],
+        match: [/^[a-zA-Z ]*$/, "Last name can only contain letters and spaces"]
     },
     phone : {
         type : String,
