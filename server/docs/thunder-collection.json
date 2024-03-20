@@ -1,0 +1,94 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "TalentBridge",
+    "dateExported": "2024-03-20T05:03:15.328Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "86ae89ca-6338-48b9-acd9-ce11536a9817",
+            "colId": "2ec6a0e6-77cd-407a-8c2b-cf820d7c4994",
+            "containerId": "",
+            "name": "dummyRoute",
+            "url": "http://localhost:8000/api/v1/test/dummy",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-11-02T02:20:29.934Z",
+            "modified": "2024-02-25T23:17:35.770Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "d2386ff0-f748-4f53-b9aa-f0a94ff63869",
+            "colId": "2ec6a0e6-77cd-407a-8c2b-cf820d7c4994",
+            "containerId": "",
+            "name": "Register",
+            "url": "http://localhost:8000/api/v1/auth/register",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-11-02T02:21:02.548Z",
+            "modified": "2024-02-25T22:44:47.334Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"firstName\":\"mazen\",\n  \"lastName\":\"mohammed\",\n  \"email\": \"mazn34903@gmail.com\",\n  \"phone\":\"01158974561\",\n  \"password\":\"mazen37\",\n  \"passwordConfirm\":\"mazen37\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "08a3f1bf-ee81-4f6d-b770-420cb934c5b7",
+            "colId": "2ec6a0e6-77cd-407a-8c2b-cf820d7c4994",
+            "containerId": "",
+            "name": "Login",
+            "url": "http://localhost:8000/api/v1/auth/login",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-11-02T02:21:27.972Z",
+            "modified": "2024-02-25T22:46:47.698Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\":\"mazn34903@gmail.com\",\n  \"password\":\"mazen37\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "1610ac8b-75a5-4b5e-a31e-084394db80a1",
+            "colId": "2ec6a0e6-77cd-407a-8c2b-cf820d7c4994",
+            "containerId": "",
+            "name": "Logout",
+            "url": "http://localhost:8000/api/v1/auth/logout",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-11-02T02:22:03.156Z",
+            "modified": "2023-11-02T02:22:03.156Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "c5fafb24-7d00-4eb8-9aab-890f39718cec",
+            "colId": "2ec6a0e6-77cd-407a-8c2b-cf820d7c4994",
+            "containerId": "",
+            "name": "Verification code",
+            "url": "http://localhost:8000/api/v1/auth/verify",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-11-13T03:16:37.963Z",
+            "modified": "2024-02-25T22:46:10.680Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"verificationCode\": \"707043\"\n}\n  \n  \n",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
