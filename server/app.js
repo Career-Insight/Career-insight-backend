@@ -20,8 +20,7 @@ dotenv.config();
 const app = express();
 
 
-//DB
-dotenv.config({ path: "./config.env"});
+
 
 
 //MIDDLEWARES  

@@ -9,20 +9,17 @@ const loginLogger = new Logger({ log:'Login User' })
 const logoutLogger = new Logger({ log:'Logout User' })
 
 const {
-    createToken,
-    isTokenValid,
     attachCookieToResponse,
     neededPayload,
-    handleRegistrationError,
 } = require("../services/userServices")
 
 //register
-const register = async (req, res) => {
+const register = async (req, res, next) => {
     //take data from request
     const {firstName,lastName ,phone ,email, password, passwordConfirm} = req.body;
     //check fields before save user
     if(!firstName || !lastName || !phone || !email || !password || !passwordConfirm) {
-        throw new CustomError.BadRequestError("All fields must be provide")
+        next(new CustomError.BadRequestError('All fields must be provided'));
     }
 
     //save user
@@ -35,8 +32,6 @@ const register = async (req, res) => {
             password,
             passwordConfirm,
             createdAt: new Date(Date.now()),
-            //profile,
-            //avatar
         });
 
         // Save the user's email in the session
@@ -52,21 +47,20 @@ const register = async (req, res) => {
         await registerLogger.info('Register successfuly', payload)
         res.status(StatusCodes.CREATED).json({ user: payload });
     } catch (err) {
-        console.error('Error during registration:', err);
         await registerLogger.error('Register failed', {err: err.message})
-        return handleRegistrationError(err, res);
+        next(err)
     }
 }
 
 //Login
-const login = async (req, res) => {
+const login = async (req, res, next) => {
     try {
         
         //take data from request
         const { email, password } = req.body
         //check fields before get user email
         if(!email || !password) {
-            throw new CustomError.BadRequestError("All fields must be provided");
+            throw new CustomError.BadRequestError("All fields must be provide")
         }
         //find user email
         const user = await User.findOne({ email });
@@ -93,8 +87,8 @@ const login = async (req, res) => {
         await loginLogger.info('Login successful', { email: user.email });
     } catch (error) {
         // Log errors
-        loginLogger.error('Login failed', { error: error.message });
-        res.status(StatusCodes.UNAUTHORIZED).json("No user with this Email")
+        await loginLogger.error('Login failed', { error: error.message });
+        next(error)
     }
 }
 

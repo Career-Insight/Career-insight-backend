@@ -131,3 +131,5 @@ dist
 .pnp.*
 
 config.env
+development.env
+production.env

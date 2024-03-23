@@ -66,10 +66,10 @@ const verify = async (req, res) => {
         // Clear the email from the session
         delete req.session.email;
 
-        verifyLogger.info('Verification success');
+        await verifyLogger.info('Verification success');
         res.json({ message: 'Email verification successful. User now has access.' });
     } catch (error) {
-        verifyLogger.error('Error during email verification:', error);
+        await verifyLogger.error('Error during email verification:', error);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Internal server error during email verification' })
     }
 }
