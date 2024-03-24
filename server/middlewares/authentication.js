@@ -5,7 +5,7 @@ const CustomError = require ("../errors")
 const authenticationUser = async (req, res, next) => {
     const token = req.signedCookies.token
     if(!token) {
-        throw new CustomError.UnauthenticatedError("Authentication failed")
+        next( new CustomError.UnauthenticatedError("Authentication failed"))
     }
     //if token verify
     try {
@@ -14,7 +14,8 @@ const authenticationUser = async (req, res, next) => {
         req.user = { ...payload };
         next();
     } catch (error) {
-        throw new CustomError.UnauthenticatedError("Authentication failed")
+        next(error)
+        //throw new CustomError.UnauthenticatedError("Authentication failed")
     }
 }
 

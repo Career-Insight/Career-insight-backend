@@ -41,11 +41,10 @@ const register = async (req, res, next) => {
 
         await sendVerificationEmail(newUser)
 
-        //create token and attach cookie
-        const payload = neededPayload(newUser);
-        attachCookieToResponse({ res, payload });
-        await registerLogger.info('Register successfuly', payload)
-        res.status(StatusCodes.CREATED).json({ user: payload });
+        const logger= newUser.email + ' ' + newUser.id
+
+        await registerLogger.info('Register successfuly', logger)
+        res.status(StatusCodes.CREATED).json({ message: "Register successfuly, please check your email" });
     } catch (err) {
         await registerLogger.error('Register failed', {err: err.message})
         next(err)
@@ -81,7 +80,7 @@ const login = async (req, res, next) => {
         }
         const payload = neededPayload(user);
         attachCookieToResponse({ res, payload });
-        res.status(StatusCodes.OK).json({ user: payload });
+        res.status(StatusCodes.OK).json({message:"Login successful", user: payload });
 
         // Log success
         await loginLogger.info('Login successful', { email: user.email });
