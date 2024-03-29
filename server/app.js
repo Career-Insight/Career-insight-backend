@@ -47,8 +47,8 @@ app.use(limiter)
 app.use(cookieParser(process.env.JWT_SECRET))
 app.use(session({
     secret: process.env.SECRET,
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     store : new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 app.use(passport.initialize());
