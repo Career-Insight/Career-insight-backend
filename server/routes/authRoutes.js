@@ -11,6 +11,7 @@ const { verify } = require("../controllers/verificationController")
 router.post("/register", validateEmail, register)
 router.post("/verify", verify)
 router.route("/login").post(login);
-router.get("/logout", authenticationUser, logout);
+router.use(authenticationUser)
+router.get("/logout",  logout);
 
 module.exports = router 

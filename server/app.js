@@ -27,11 +27,13 @@ const app = express();
 const notFound = require("./middlewares/notFound")
 const errorHandlerMiddleware = require("./middlewares/errorHandlers")
 const limiter = require("./middlewares/rateLimiter")
+const { authenticationUser } = require("./middlewares/authentication")
 
 //ROUTES
 const dummyRouter = require("./routes/dummeyRoute")
 const authRouter = require("./routes/authRoutes")
 const oauthGoogleRoute = require('./routes/oauthRoute-google')
+const dashboardGenral = require('./routes/dashboardRoutes')
 
 
 //API Documentation
@@ -56,6 +58,8 @@ app.use(passport.session())
 app.use("/api/v1/test",dummyRouter)
 app.use("/api/v1/auth",authRouter)
 app.use(oauthGoogleRoute)
+app.use(authenticationUser)
+app.use('/api/v1/dashboard', dashboardGenral)
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
