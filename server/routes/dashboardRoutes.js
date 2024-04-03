@@ -6,9 +6,13 @@ const {
         pldynamic,
         frontendDistrubtion,
         backendDistrubtion,
-        offeringsDistribution
+        offeringsDistribution,
+        frequencyOfJob,
+        frequencyOfSkills
     }
 = require('../controllers/dashboardController')
+
+// Stack info route
 
 router.get('/general/programming-languages/top-ten',plTopTen )
 router.get('/general/programming-languages/:count',pldynamic )
@@ -16,6 +20,10 @@ router.get('/general/programming-languages/:count',pldynamic )
 router.get('/general/frontend-technologies/:count',frontendDistrubtion )
 router.get('/general/backend-technologies/:count',backendDistrubtion )
 router.get('/general/offering-distributions', offeringsDistribution)
+
+// Job posting routes
+router.get('/jobs',frequencyOfJob )
+router.get('/jobs/skill/:track_name', frequencyOfSkills)
 
 
 

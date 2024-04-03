@@ -1,5 +1,9 @@
 const Result = require('../models/Result')
 const { StatusCodes } = require("http-status-codes");
+const Job = require('../models/Job')
+const Company = require('../models/Company')
+const Location = require('../models/Location')
+const Skill = require('../models/Skill')
 
 // General
 
@@ -127,6 +131,59 @@ const offeringsDistribution = async (req, res, next) => {
     }
 }
 
+//Job posting dashboard 
+// Anlyze the frequency of  job posting over time (mothly, yearly, country):
+const frequencyOfJob = async (req, res, next) => {
+    const { year, month, country } = req.query;
+    let pipeline = [];
+
+    if (year) pipeline.push({ $match: { year: parseInt(year) } });
+    if (month) pipeline.push({ $match: { month: parseInt(month) } });
+    if (country) pipeline.push({ $match: { country } });
+
+    pipeline = pipeline.concat([
+        { $group: { _id: '$key_job', count: { $sum: 1 } } },
+        { $project: { key_job: '$_id', count: 1, _id: 0 } },
+        { $sort: { count: -1 } }
+    ]);
+
+    try {
+        const jobCounts = await Job.aggregate(pipeline);
+        const resultDict = jobCounts.reduce((acc, entry) => {
+            acc[entry.key_job] = entry.count;
+            return acc;
+        }, {});
+        res.status(StatusCodes.OK).json(resultDict);
+    } catch (error) {
+        next(error)
+    }
+}
+
+// Skill Demand Analsis : identfy the most in-demand skills by anlyzing the freuency of skill mentions in job posting :
+const frequencyOfSkills = async (req, res, next) => {
+    const { track_name } = req.params;
+    const pipeline = [
+        { $lookup: { from: 'skills', localField: 'skill_ids', foreignField: '_id', as: 'job_result' } },
+        { $unwind: { path: '$job_result', includeArrayIndex: 'string', preserveNullAndEmptyArrays: false } },
+        { $project: { key_job: 1, 'job_result.skill_name': 1 } },
+        { $match: { key_job: track_name } },
+        { $group: { _id: '$job_result.skill_name', count: { $sum: 1 } } },
+        { $sort: { count: -1 } }
+    ];
+
+    try {
+        const result = await Job.aggregate(pipeline);
+        const resultDict = result.reduce((acc, item) => {
+            acc[item._id] = { count: item.count };
+            return acc;
+        }, {});
+        console.log(resultDict);
+        res.json(resultDict);
+    } catch (error) {
+        next(error)
+    }
+}
+
 
 
 module.exports = { 
@@ -134,5 +191,7 @@ module.exports = {
     pldynamic,
     frontendDistrubtion,
     backendDistrubtion,
-    offeringsDistribution
+    offeringsDistribution,
+    frequencyOfJob,
+    frequencyOfSkills
 }
