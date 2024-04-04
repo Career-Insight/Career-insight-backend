@@ -177,7 +177,7 @@ const frequencyOfSkills = async (req, res, next) => {
             acc[item._id] = { count: item.count };
             return acc;
         }, {});
-        console.log(resultDict);
+        //console.log(resultDict);
         res.json(resultDict);
     } catch (error) {
         next(error)
