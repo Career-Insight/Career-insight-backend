@@ -1,14 +1,14 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Talent Bridge",
+        "title": "Carrer Insight",
         "description": "Graduation Project",
         "version": "0.1.5"
     },
     "servers": [
         {
             "url": "http:/localhost:8000/",
-            "description": "develpe server"
+            "description": "Development server"
         }
     ],
     "components": {
@@ -249,6 +249,408 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/v1/dashboard/general/programming-languages/top-ten": {
+            "get": {
+                "summary": "Get Top Ten Programming Languages",
+                "description": "Retrieves a list of the top ten programming languages based on distribution.",
+                "responses": {
+                    "200": {
+                        "description": "A list of the top ten programming languages",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "k": {
+                                                "type": "string",
+                                                "description": "Programming Language"
+                                            },
+                                            "v": {
+                                                "type": "number",
+                                                "description": "Distribution Count"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": [
+                                    {
+                                        "k": "JavaScript",
+                                        "v": 5000
+                                    },
+                                    {
+                                        "k": "Python",
+                                        "v": 4500
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/dashboard/general/programming-languages/{count}": {
+            "get": {
+                "summary": "Get Top Programming Languages by Count",
+                "description": "Retrieves a list of the top programming languages based on distribution, limited by the count parameter.",
+                "parameters": [
+                    {
+                        "name": "count",
+                        "in": "path",
+                        "description": "The number of top programming languages to retrieve.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "minimum": 1,
+                            "maximum": 18,
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of the top programming languages based on the specified count",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "k": {
+                                                "type": "string",
+                                                "description": "Programming Language"
+                                            },
+                                            "v": {
+                                                "type": "number",
+                                                "description": "Distribution Count"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": [
+                                    {
+                                        "k": "JavaScript",
+                                        "v": 5000
+                                    },
+                                    {
+                                        "k": "HTML",
+                                        "v": 4500
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request - Invalid count parameter. Please provide a positive integer or the count exceeds the maximum allowed.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "Invalid count parameter. Please provide a positive integer."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/dashboard/general/frontend-technologies/{count}": {
+            "get": {
+                "summary": "Get Top Frontend technologies by Count",
+                "description": "Retrieves a list of the top Frontend technologies based on distribution, limited by the count parameter.",
+                "parameters": [
+                    {
+                        "name": "count",
+                        "in": "path",
+                        "description": "The number of top Frontend technologies to retrieve.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "minimum": 1,
+                            "maximum": 14,
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of the top Frontend technologies based on the specified count",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "k": {
+                                                "type": "string",
+                                                "description": "Frontend technology"
+                                            },
+                                            "v": {
+                                                "type": "number",
+                                                "description": "Distribution Count"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": [
+                                    {
+                                        "k": "Node.js",
+                                        "v": 5000
+                                    },
+                                    {
+                                        "k": "AWS",
+                                        "v": 4500
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request - Invalid count parameter. Please provide a positive integer or the count exceeds the maximum allowed.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "Invalid count parameter. Please provide a positive integer."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/dashboard/general/backend-technologies/{count}": {
+            "get": {
+                "summary": "Get Top Frontend technologies by Count",
+                "description": "Retrieves a list of the top Backend technologies based on distribution, limited by the count parameter.",
+                "parameters": [
+                    {
+                        "name": "count",
+                        "in": "path",
+                        "description": "The number of top  Backend technologies to retrieve.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "minimum": 1,
+                            "maximum": 55,
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of the top  Backend technologies based on the specified count",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "k": {
+                                                "type": "string",
+                                                "description": " Backend technology"
+                                            },
+                                            "v": {
+                                                "type": "number",
+                                                "description": "Distribution Count"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request - Invalid count parameter. Please provide a positive integer or the count exceeds the maximum allowed.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "Invalid count parameter. Please provide a positive integer."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/dashboard/general/offering-distributions": {
+            "get": {
+                "summary": "Get of Offering Distributions",
+                "description": "Retrieves a list of the Offering Distributions based on market.",
+                "responses": {
+                    "200": {
+                        "description": "A list of Offering Distributions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "k": {
+                                                "type": "string",
+                                                "description": "Jop Offering"
+                                            },
+                                            "v": {
+                                                "type": "number",
+                                                "description": "Distribution Count"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/dashboard/jobs": {
+            "get": {
+                "summary": "Get Job Frequency",
+                "description": "Retrieves the frequency of jobs filtered by year, month, and country.",
+                "parameters": [
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Year to filter the job frequency data.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "month",
+                        "in": "query",
+                        "description": "Month to filter the job frequency data.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "minimum": 1,
+                            "maximum": 12
+                        }
+                    },
+                    {
+                        "name": "country",
+                        "in": "query",
+                        "description": "Country to filter the job frequency data.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A dictionary of job frequencies",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "integer",
+                                        "description": "The frequency of the job"
+                                    }
+                                },
+                                "example": {
+                                    "Software Engineer": 150,
+                                    "Data Scientist": 100
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request - Invalid query parameters.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "Invalid query parameter. Please check your inputs."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/dashboard/jobs/skill/{track_name}": {
+            "get": {
+                "summary": "Get Skill Demand Analysis",
+                "description": "Identifies the most in-demand skills by analyzing the frequency of skill mentions in job postings for a given track.",
+                "parameters": [
+                    {
+                        "name": "track_name",
+                        "in": "path",
+                        "description": "The track name to filter the skill demand analysis.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A dictionary of skills and their frequencies",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "object",
+                                        "properties": {
+                                            "count": {
+                                                "type": "integer",
+                                                "description": "The frequency of the skill mention"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "JavaScript": { "count": 150 },
+                                    "Python": { "count": 100 }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request - Invalid track name parameter.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "Invalid track name parameter. Please check your inputs."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
                     }
                 }
             }
