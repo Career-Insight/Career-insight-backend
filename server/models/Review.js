@@ -23,31 +23,31 @@ const reviewSchema = new mongoose.Schema({
         required: true
     },
     overall_rating: {
-        type: String,
+        type: Number,
         required: true
     },
     work_life_balance: {
-        type: String,
+        type: Number,
         required: true
     },
     culture_values: {
-        type: String,
+        type: Number,
         required: true
     },
     diversity_inclusion: {
-        type: String,
+        type: Number,
         required: true
     },
     career_opp: {
-        type: String,
+        type: Number,
         required: true
     },
     comp_benefits: {
-        type: String,
+        type: Number,
         required: true
     },
     senior_mgmt: {
-        type: String,
+        type: Number,
         required: true
     },
     recommend: String,
