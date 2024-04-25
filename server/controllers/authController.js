@@ -11,7 +11,8 @@ const logoutLogger = new Logger({ log:'Logout User' })
 const {
     attachCookieToResponse,
     neededPayload,
-} = require("../services/userServices")
+} = require("../services/userServices");
+const { sendWelcomeBackEmail } = require("../utils/emails");
 
 //register
 const register = async (req, res, next) => {
@@ -81,7 +82,7 @@ const login = async (req, res, next) => {
         const payload = neededPayload(user);
         attachCookieToResponse({ res, payload });
         res.status(StatusCodes.OK).json({message:"Login successful", user: payload });
-
+        await sendWelcomeBackEmail(user)
         // Log success
         await loginLogger.info('Login successful', { email: user.email });
     } catch (error) {

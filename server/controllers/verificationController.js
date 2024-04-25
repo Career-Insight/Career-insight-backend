@@ -4,6 +4,7 @@ const CustomError = require('../errors/index')
 const { StatusCodes } = require('http-status-codes')
 const dotenv = require("dotenv");
 const Logger = require('../services/loggerServices');
+const { sendHelloEmail } = require('../utils/emails');
 
 const verifyLogger = new Logger({ log:'verify User' })
 
@@ -68,6 +69,8 @@ const verify = async (req, res) => {
 
         await verifyLogger.info('Verification success');
         res.json({ message: 'Email verification successful. User now has access.' });
+
+        await sendHelloEmail(user)
     } catch (error) {
         await verifyLogger.error('Error during email verification:', error);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Internal server error during email verification' })
