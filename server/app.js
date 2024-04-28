@@ -35,6 +35,7 @@ const authRouter = require("./routes/authRoutes")
 const oauthGoogleRoute = require('./routes/oauthRoute-google')
 const dashboardGenral = require('./routes/dashboardRoutes')
 const reviewRoutes = require('./routes/reviewsRoutes')
+const companyRoutes = require('./routes/compainesRoutes')
 
 
 //API Documentation
@@ -62,6 +63,7 @@ app.use(oauthGoogleRoute)
 app.use(authenticationUser)
 app.use('/api/v1/dashboard', dashboardGenral)
 app.use('/api/v1/review',reviewRoutes)
+app.use('/api/v1/company', companyRoutes)
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
