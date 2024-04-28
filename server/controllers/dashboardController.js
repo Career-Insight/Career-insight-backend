@@ -185,6 +185,131 @@ const frequencyOfSkills = async (req, res, next) => {
 }
 
 
+// Frequency Of Experience Levels
+const frequencyOfExperienceLevels  = async (req, res, next) => {
+    try {
+        const pipeline = [
+            {$group: {_id: '$career_level',count: { $sum: 1 }}},
+            {$project: {experience_level: '$_id',count: 1,_id: 0}},
+            {$sort: { count: -1 }}
+        ];
+        const result = await Job.aggregate(pipeline);
+        res.status(StatusCodes.OK).json(result);
+    } catch (error) {
+        next(error);
+        console.log(error)
+    }
+}
+
+const frequencyOfJobByCountry = async (req, res, next) => {
+    try {
+        const pipeline = [
+            {
+                $group: {
+                    _id: "$country",
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $project: {
+                    country: "$_id",
+                    count: 1,
+                    _id: 0
+                }
+            },
+            {
+                $sort: { count: -1 }
+            }
+        ];
+
+        const result = await Job.aggregate(pipeline);
+        res.status(StatusCodes.OK).json(result);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const trendNowInTech = async (req, res, next) => {
+    const { track } = req.params;
+    
+    try {
+        const result = await Job.aggregate([
+            { $match: { key_job: track } }, 
+            { $unwind: "$skill_ids" }, 
+            { $lookup: { from: "skills", localField: "skill_ids", foreignField: "_id", as: "skill" } }, // Lookup skill details
+            { $unwind: "$skill" }, 
+            { $group: { _id: "$skill.skill_name", count: { $sum: 1 } } }, 
+            { $sort: { count: -1 } },
+            { $limit: 1 }
+        ]);
+
+        res.status(StatusCodes.OK).json(result);
+    } catch (error) {
+        console.log(error)
+        next(error);
+    }
+}
+
+const recommendedTechStack = async (req, res, next) => {
+    try {
+        const result = await Job.aggregate([
+            { $unwind: "$key_job" }, 
+            { $group: { _id: "$key_job", count: { $sum: 1 } } }, 
+            { $sort: { count: -1 } }, 
+            { $limit: 1 } 
+        ]);
+
+        const keyJobTrends = result.map(item => ({
+            Tech_stack: item._id,
+            count: item.count
+        }));
+
+        res.json(keyJobTrends);
+    } catch (error) {
+        console.error('Error fetching recommended tech stack trends:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
+// Salary Insights
+const salaryInsightsOnJobRoles = async (req, res ,next) => {
+    const { jobRole } = req.params;
+    try {
+        const salaryInsights = await Job.aggregate([
+            { $match: { key_job: jobRole } }, 
+            { $group: { _id: null, averageSalary: { $avg: "$salary_range" } } } 
+        ]);
+        
+        if (salaryInsights.length > 0) {
+            res.json({ jobRole, averageSalary: salaryInsights[0].averageSalary });
+        } else {
+            res.status(404).json({ error: "Job role not found" });
+        }
+    } catch (error) {
+        console.error('Error fetching salary insights:', error);
+        next(error);
+    }
+}
+
+const salaryInsightsOnCareerLevel = async (req, res ,next) => {
+    const { careerLevel } = req.params;
+    try {
+        const salaryAnalysis = await Job.aggregate([
+            { $match: { career_level: careerLevel } }, 
+            { $group: { _id: null, averageSalary: { $avg: "$salary_range" } } }
+        ]);
+        
+        if (salaryAnalysis.length > 0) {
+            res.json({ careerLevel, averageSalary: salaryAnalysis[0].averageSalary });
+        } else {
+            res.status(404).json({ error: "Career level not found" });
+        }
+    } catch (error) {
+        console.error('Error fetching salary analysis:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
 
 module.exports = { 
     plTopTen,
@@ -193,5 +318,11 @@ module.exports = {
     backendDistrubtion,
     offeringsDistribution,
     frequencyOfJob,
-    frequencyOfSkills
+    frequencyOfSkills,
+    frequencyOfExperienceLevels,
+    frequencyOfJobByCountry,
+    trendNowInTech,
+    recommendedTechStack,
+    salaryInsightsOnJobRoles,
+    salaryInsightsOnCareerLevel
 }
