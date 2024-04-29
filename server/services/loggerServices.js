@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config()
 
 const logFilePath = process.env.LOG_FILE_PATH;
-console.log('Log file path:', logFilePath);
+//console.log('Log file path:', logFilePath);
 
 //date + logger level + message 
 
