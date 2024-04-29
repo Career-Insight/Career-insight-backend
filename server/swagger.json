@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Carrer Insight",
+        "title": "Career Insight",
         "description": "Graduation Project",
         "version": "0.1.5"
     },
@@ -217,7 +217,7 @@
                 }
             }
         },
-        "/auth/google":{
+        "/api/v1/authWithGoogle":{
             "get":{
                 "summary": "Secure Endpoint",
                 "description": "Endpoint secured with OAuth 2.0 using Google as the provider.",
@@ -648,6 +648,277 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/dashboard/jobs/frequency-of-experience-levels": {
+            "get": {
+                "summary": "Get Frequency of Experience Levels",
+                "description": "Retrieves the frequency of experience levels in job postings.",
+                "responses": {
+                    "200": {
+                        "description": "A dictionary of experience levels and their frequencies",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "integer",
+                                        "description": "The frequency of the experience level"
+                                    }
+                                },
+                                "example": {
+                                    "Entry Level": 150,
+                                    "Mid Level": 100
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/dashboard/jobs/frequency-of-job-by-country": {
+            "get": {
+                "summary": "Get Frequency of Job by Country",
+                "description": "Retrieves the frequency of job postings by country.",
+                "responses": {
+                    "200": {
+                        "description": "A dictionary of job frequencies by country",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "integer",
+                                        "description": "The frequency of the job"
+                                    }
+                                },
+                                "example": {
+                                    "USA": 150,
+                                    "India": 100
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/dashboard/jobs/trend/{track}": {
+            "get": {
+                "summary": "Get Trend in Technology",
+                "description": "Retrieves the trend in technology for a given track.",
+                "parameters": [
+                    {
+                        "name": "track",
+                        "in": "path",
+                        "description": "The track to retrieve the trend for.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A dictionary of technologies and their frequencies for the given track",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "integer",
+                                        "description": "The frequency of the technology"
+                                    }
+                                },
+                                "example": {
+                                    "JavaScript": 150,
+                                    "Python": 100
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/dashboard/jobs/recommended-tech-stack": {
+            "get": {
+                "summary": "Get Recommended Tech Stack",
+                "description": "Retrieves the recommended tech stack based on job postings.",
+                "responses": {
+                    "200": {
+                        "description": "A list of recommended tech stacks",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "description": "Recommended tech stack"
+                                    }
+                                },
+                                "example": ["JavaScript", "Python"]
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/dashboard/jobs/salary-insights/job-roles/{jobRole}": {
+            "get": {
+                "summary": "Get Salary Insights on Job Roles",
+                "description": "Retrieves the average salary for a given job role.",
+                "parameters": [
+                    {
+                        "name": "jobRole",
+                        "in": "path",
+                        "description": "The job role to retrieve the salary insights for.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The average salary for the given job role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "jobRole": {
+                                            "type": "string",
+                                            "description": "The job role"
+                                        },
+                                        "averageSalary": {
+                                            "type": "number",
+                                            "description": "The average salary"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "jobRole": "Software Engineer",
+                                    "averageSalary": 100000
+                                }
+                            }
+                        },
+                        "404": {
+                            "description": "Job role not found"
+                        },
+                        "500": {
+                            "description": "Internal Server Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/dashboard/jobs/salary-insights/career-levels/{careerLevel}": {
+            "get": {
+                "summary": "Get Salary Insights on Career Levels",
+                "description": "Retrieves the average salary for a given career level.",
+                "parameters": [
+                    {
+                        "name": "careerLevel",
+                        "in": "path",
+                        "description": "The career level to retrieve the salary insights for.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The average salary for the given career level",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "careerLevel": {
+                                            "type": "string",
+                                            "description": "The career level"
+                                        },
+                                        "averageSalary": {
+                                            "type": "number",
+                                            "description": "The average salary"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "careerLevel": "Entry Level",
+                                    "averageSalary": 50000
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Career level not found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/companies/get-company": {
+            "get": {
+                "summary": "Get Company by Name",
+                "description": "Retrieves a company by its name.",
+                "parameters": [
+                    {
+                        "name": "company_name",
+                        "in": "query",
+                        "description": "The name of the company to retrieve.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The company was found and returned successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "company_name": {
+                                            "type": "string",
+                                            "description": "The name of the company"
+                                        },
+                                        "other_properties": {
+                                            "type": "string",
+                                            "description": "Other properties of the company"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "company_name": "Company A",
+                                    "other_properties": "..."
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The company was not found."
                     },
                     "500": {
                         "description": "Internal Server Error"
