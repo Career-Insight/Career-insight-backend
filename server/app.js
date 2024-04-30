@@ -36,6 +36,7 @@ const oauthGoogleRoute = require('./routes/oauthRoute-google')
 const dashboardGenral = require('./routes/dashboardRoutes')
 const reviewRoutes = require('./routes/reviewsRoutes')
 const companyRoutes = require('./routes/compainesRoutes')
+const dataRoutes = require('./routes/dataCollectionRoutes')
 
 
 //API Documentation
@@ -61,6 +62,7 @@ app.use("/api/v1/test",dummyRouter)
 app.use("/api/v1/auth",authRouter)
 app.use(oauthGoogleRoute)
 app.use(authenticationUser)
+app.use('/api/v1/interests',dataRoutes)
 app.use('/api/v1/dashboard', dashboardGenral)
 app.use('/api/v1/review',reviewRoutes)
 app.use('/api/v1/company', companyRoutes)

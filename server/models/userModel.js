@@ -80,6 +80,12 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false 
     },
+    dataCollection: {
+        interestedJob: String,
+        interestedSkills: [String],
+        careerLevel: String
+    },
+
     createdAt: Date,
 })
 

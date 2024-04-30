@@ -925,6 +925,52 @@
                     }
                 }
             }
+        },
+        "/api/v1/interests/add-data": {
+            "post": {
+                "summary": "Update data collection for a user.",
+                "tags": ["Data Collection"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "interestedJob": {
+                                        "type": "string"
+                                    },
+                                    "interestedSkills": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "careerLevel": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data collection updated successfully."
+                    },
+                    "400": {
+                        "description": "User not found."
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
         }
     }
 }
