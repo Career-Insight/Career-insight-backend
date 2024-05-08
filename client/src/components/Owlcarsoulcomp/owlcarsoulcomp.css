@@ -1,0 +1,20 @@
+.owl-theme .owl-nav.disabled + .owl-dots {
+  margin-top: 50px;
+}
+.owl-theme .owl-dots .owl-dot span {
+  width: 15px;
+  height: 15px;
+  margin: 5px 7px;
+  background: #ffffffcc;
+  transition: 200ms ease;
+  border-radius: 14px;
+}
+.owl-theme .owl-dots .owl-dot.active span,
+.owl-theme .owl-dots .owl-dot:hover span {
+  width: 25px;
+  height: 15px;
+  background: #ffffff;
+}
+.owl-carousel {
+  margin: 0 !important;
+}
