@@ -12,7 +12,8 @@ const neededPayload = (data) => {
     const fullName = `${data.firstName} ${data.lastName}`
     return {
         userId: data._id,
-        userName: fullName
+        userName: fullName,
+        email:data.email
     }
 }
 
@@ -33,6 +34,11 @@ const attachCookieToResponse = ({ res, payload }) => {
     });
 };
 
+const attacTokenToResponse = (payload) => {
+    const access_token = createToken({ payload });
+    return access_token
+}
+
 //check is email not unique
 const handleRegistrationError = (err, res) => {
     if (err.code === 11000 && err.keyPattern && err.keyPattern.email) {
@@ -50,5 +56,6 @@ module.exports = {
     neededPayload,
     isTokenValid,
     attachCookieToResponse,
-    handleRegistrationError
+    handleRegistrationError,
+    attacTokenToResponse
 }

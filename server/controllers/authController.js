@@ -9,6 +9,7 @@ const loginLogger = new Logger({ log:'Login User' })
 const logoutLogger = new Logger({ log:'Logout User' })
 
 const {
+    attacTokenToResponse,
     attachCookieToResponse,
     neededPayload,
 } = require("../services/userServices");
@@ -80,8 +81,9 @@ const login = async (req, res, next) => {
             throw new CustomError.UnauthorizedError("Wrong password");
         }
         const payload = neededPayload(user);
-        attachCookieToResponse({ res, payload });
-        res.status(StatusCodes.OK).json({message:"Login successful", user: payload });
+        //attachCookieToResponse({ res, payload });
+        const token = attacTokenToResponse(payload)
+        res.status(StatusCodes.OK).json({message:"Login successful", user: payload, access_token: token});
         await sendWelcomeBackEmail(user)
         // Log success
         await loginLogger.info('Login successful', { email: user.email });

@@ -49,7 +49,7 @@ async function sendVerificationEmail(user) {
 
 const verify = async (req, res) => {
     const { verificationCode } = req.body;
-    const email = req.session.email; // Retrieve the email from the session
+    const email = req.body.email; // Retrieve the email from the session
 
     try {
         const user = await User.findOneAndUpdate(
