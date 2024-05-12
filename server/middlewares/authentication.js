@@ -1,12 +1,14 @@
 const { isTokenValid } = require("../services/userServices");
 const CustomError = require ("../errors")
 
-//create middleware for authentication checking for tokens
+
 const authenticationUser = async (req, res, next) => {
-    const token = req.signedCookies.token
-    if(!token) {
-        next( new CustomError.UnauthenticatedError("Authentication failed"))
+    // Updated middleware for authentication checking for tokens and Retrieve token from the Authorization header
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return next(new CustomError.UnauthenticatedError("Authentication failed - No token provided"));
     }
+    const token = authHeader.split(' ')[1];
     //if token verify
     try {
         const payload = isTokenValid({ token })
@@ -14,7 +16,7 @@ const authenticationUser = async (req, res, next) => {
         req.user = { ...payload };
         next();
     } catch (error) {
-        next(error)
+        next(new CustomError.UnauthenticatedError("Authentication failed - Invalid token"))
         //throw new CustomError.UnauthenticatedError("Authentication failed")
     }
 }

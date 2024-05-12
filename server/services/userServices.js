@@ -24,15 +24,15 @@ const isTokenValid = ({ token }) => {
 }
 
 // attachCookieToResponse
-const attachCookieToResponse = ({ res, payload }) => {
-    const token = createToken({ payload });
-    const day = 1000 * 60 * 60 * 24;
-    res.cookie("token", token, {
-        httpOnly: true,
-        expires: new Date(Date.now() + day),
-        signed: true,
-    });
-};
+// const attachCookieToResponse = ({ res, payload }) => {
+//     const token = createToken({ payload });
+//     const day = 1000 * 60 * 60 * 24;
+//     res.cookie("token", token, {
+//         httpOnly: true,
+//         expires: new Date(Date.now() + day),
+//         signed: true,
+//     });
+// };
 
 const attacTokenToResponse = (payload) => {
     const access_token = createToken({ payload });
@@ -55,7 +55,7 @@ module.exports = {
     createToken,
     neededPayload,
     isTokenValid,
-    attachCookieToResponse,
+    //attachCookieToResponse,
     handleRegistrationError,
     attacTokenToResponse
 }
