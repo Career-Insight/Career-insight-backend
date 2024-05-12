@@ -1,0 +1,24 @@
+.imglogo {
+  width: 90px;
+  background-image: url(../../images/logo.png);
+  background-size: cover;
+  background-position: 100%;
+}
+.cta__btn_nav1,
+.cta__btn_nav2 {
+  width: 80px !important;
+  height: 38px ;
+  margin-left: 10px;
+  font-size: 14px !important;
+  font-weight: 600;
+  line-height: 38px;
+}
+
+@media (max-width: 576px) {
+  .cta__btn_nav1,
+  .cta__btn_nav2 {
+    width: 50px !important;
+    margin: 0;
+    margin-bottom: 5px;
+  }
+}
