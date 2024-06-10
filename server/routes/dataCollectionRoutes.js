@@ -1,9 +1,10 @@
 const express = require("express");
 const { addDataCollection } = require("../controllers/dataCollectionController");
-const { authenticationUser } = require("../middlewares/authentication")
+const { validateDataCollection } = require("../middlewares/validation")
+
 
 const router = express.Router();
 
-router.post('/add-data',addDataCollection)
+router.post('/add-data',validateDataCollection,addDataCollection)
 
 module.exports = router
