@@ -18,7 +18,11 @@ const roadMapSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
-})
+    learning_plan: {
+        type: SchemaTypes.Mixed,
+        required: true
+    },
+}, { timestamps: true })
 
 const RoadMap = mongoose.model('RoadMap', roadMapSchema);
 

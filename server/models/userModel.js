@@ -86,6 +86,11 @@ const userSchema = new mongoose.Schema({
         careerLevel: String
     },
 
+    hasCreatedRoadmap: {
+        type: Boolean,
+        default: false
+    },
+
     createdAt: Date,
 })
 
