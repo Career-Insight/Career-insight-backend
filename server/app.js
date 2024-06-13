@@ -38,6 +38,7 @@ const reviewRoutes = require('./routes/reviewsRoutes')
 const companyRoutes = require('./routes/compainesRoutes')
 const dataRoutes = require('./routes/dataCollectionRoutes')
 const ciChat = require('./routes/ci-chat-route')
+const staticRoadmapRoutes = require('./routes/staticRoadmapsRoutes')
 
 
 //API Documentation
@@ -68,6 +69,7 @@ app.use('/api/v1/dashboard', dashboardGenral)
 app.use('/api/v1/review',reviewRoutes)
 app.use('/api/v1/company', companyRoutes)
 app.use('/api/v1/ci-chat', ciChat)
+app.use("/api/v1/static-roadmaps",staticRoadmapRoutes)
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 

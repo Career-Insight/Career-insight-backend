@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const {mongoose, SchemaTypes} = require('mongoose');
 
 const roadMapSchema = new mongoose.Schema({
     user_id: {
