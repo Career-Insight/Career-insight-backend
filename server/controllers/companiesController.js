@@ -1,4 +1,5 @@
 const Company = require('../models/Company');
+const { StatusCodes } = require("http-status-codes");
 
 //get company data by it's name 
 const getCompanyByName = async (req, res, next) => {
@@ -16,6 +17,16 @@ const getCompanyByName = async (req, res, next) => {
         })
 }
 
+const getAllCompaniesNameandId = async (req, res , next) => {
+    try {
+        const compaines = await Company.find({},'company_name _id')
+        res.status(StatusCodes.OK).json(compaines);
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
+    getAllCompaniesNameandId,
     getCompanyByName
 }
