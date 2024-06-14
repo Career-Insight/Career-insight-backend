@@ -266,8 +266,7 @@ const recommendedTechStack = async (req, res, next) => {
 
         res.json(keyJobTrends);
     } catch (error) {
-        console.error('Error fetching recommended tech stack trends:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        next(error);
     }
 }
 
@@ -286,7 +285,6 @@ const salaryInsightsOnJobRoles = async (req, res ,next) => {
             res.status(404).json({ error: "Job role not found" });
         }
     } catch (error) {
-        console.error('Error fetching salary insights:', error);
         next(error);
     }
 }
@@ -305,8 +303,25 @@ const salaryInsightsOnCareerLevel = async (req, res ,next) => {
             res.status(404).json({ error: "Career level not found" });
         }
     } catch (error) {
-        console.error('Error fetching salary analysis:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        next(error);
+    }
+}
+
+const countJobs = async (req, res, next) => {
+    try {
+        const jobCount = await Job.countDocuments({});
+        res.status(StatusCodes.OK).json({ count: jobCount });
+    } catch (error) {
+        next(error);
+    }
+}
+
+const countSkills = async (req, res, next) => {
+    try {
+        const skillCount = await Skill.countDocuments({});
+        res.status(StatusCodes.OK).json({ count: skillCount });
+    } catch (error) {
+        next(error);
     }
 }
 
@@ -324,5 +339,7 @@ module.exports = {
     trendNowInTech,
     recommendedTechStack,
     salaryInsightsOnJobRoles,
-    salaryInsightsOnCareerLevel
+    salaryInsightsOnCareerLevel,
+    countJobs,
+    countSkills
 }

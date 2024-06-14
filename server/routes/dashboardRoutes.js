@@ -14,9 +14,11 @@ const {
         trendNowInTech,
         recommendedTechStack,
         salaryInsightsOnJobRoles,
-        salaryInsightsOnCareerLevel
+        salaryInsightsOnCareerLevel,
+        countJobs,
+        countSkills
     }
-= require('../controllers/dashboardController')
+= require('../controllers/dashboardController');
 
 // Stack info route
 
@@ -36,6 +38,10 @@ router.get('/jobs/trend/:track', trendNowInTech )
 router.get('/jobs/recommended-tech-stack', recommendedTechStack )
 router.get('/jobs/salary-insights/job-roles/:jobRole', salaryInsightsOnJobRoles )
 router.get('/jobs/salary-insights/career-levels/:careerLevel', salaryInsightsOnCareerLevel )
+router.get('/jobs/count', countJobs)
+router.get('/skills/count', countSkills)
+
+
 
 
 
