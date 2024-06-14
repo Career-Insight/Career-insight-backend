@@ -1,16 +1,7 @@
 const {mongoose, SchemaTypes} = require('mongoose');
 
 const roadMapSchema = new mongoose.Schema({
-    user_id: {
-        type: SchemaTypes.ObjectId,
-        ref: 'User',
-        required: true,
-    },
     name: {
-        type: String,
-        required: true
-    },
-    content : {
         type: String,
         required: true
     },
@@ -18,12 +9,22 @@ const roadMapSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
-    learning_plan: {
+    RoadMap: {
         type: SchemaTypes.Mixed,
         required: true
     },
+    user_id: {
+        type: SchemaTypes.ObjectId,
+        ref: 'User',
+        required: true,
+    },
+    static_roadmap_id: {
+        type: SchemaTypes.ObjectId,
+        ref: 'StaticRoadmap',
+        required: false
+    }
 }, { timestamps: true })
 
-const RoadMap = mongoose.model('RoadMap', roadMapSchema);
+const userRoadMap = mongoose.model('userRoadMap', roadMapSchema);
 
-module.exports = RoadMap;
+module.exports = userRoadMap;
