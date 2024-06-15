@@ -3,7 +3,6 @@ const session = require("express-session")
 const passport = require('passport');
 const dotenv = require("dotenv");
 const morgan = require("morgan");
-const cookieParser = require("cookie-parser")
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require("./swagger.json")
 const bodyParser = require('body-parser')
@@ -53,7 +52,6 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(helmet())
 app.use(limiter)
-app.use(cookieParser(process.env.JWT_SECRET))
 app.use(session({
     secret: process.env.SECRET,
     resave: false,

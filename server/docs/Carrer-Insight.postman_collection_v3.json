@@ -1,0 +1,1001 @@
+{
+	"info": {
+		"_postman_id": "c3a91ac7-5a6b-416e-b5ef-c9f8c9a6f8df",
+		"name": "Carrer-Insight",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19931932"
+	},
+	"item": [
+		{
+			"name": "Dummey route (for testing server)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/test/dummy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"test",
+						"dummy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\":\"mazen\",\r\n  \"lastName\":\"fteha\",\r\n  \"email\": \"mazn34903@gmail.com\",\r\n  \"phone\":\"01111137730\",\r\n  \"password\":\"mazen37\",\r\n  \"passwordConfirm\":\"mazen37\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verification code",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"verificationCode\":\"448486\",\r\n  \"email\":\"mazn34903@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/auth/verify",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"verify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User ",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\":\"mazn34903@gmail.com\",\r\n  \"password\":\"mazen37\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/auth/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Top 10 programming language",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQxNDFmODZkOGE4YmU5MGQ2OThmM2QiLCJ1c2VyTmFtZSI6Im1hemVuIGZ0ZWhhIiwiZW1haWwiOiJtYXpuMzQ5MDNAZ21haWwuY29tIiwiaWF0IjoxNzE1NTUyODA4LCJleHAiOjE3MTU2MzkyMDh9.lios9Dus9EbWReEjT-uXvQnVojUaJoYc2nuk2-oWDLU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/dashboard/general/programming-languages/top-ten",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"general",
+						"programming-languages",
+						"top-ten"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get programming languages dynamically (params)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQxNDFmODZkOGE4YmU5MGQ2OThmM2QiLCJ1c2VyTmFtZSI6Im1hemVuIGZ0ZWhhIiwiZW1haWwiOiJtYXpuMzQ5MDNAZ21haWwuY29tIiwiaWF0IjoxNzE1NTUyODA4LCJleHAiOjE3MTU2MzkyMDh9.lios9Dus9EbWReEjT-uXvQnVojUaJoYc2nuk2-oWDLU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/dashboard/general/programming-languages/18",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"general",
+						"programming-languages",
+						"18"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Frontend Technologies Distrubtions (params)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/dashboard/general/frontend-technologies/14",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"general",
+						"frontend-technologies",
+						"14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Backend Technologies Distribution (params)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/dashboard/general/backend-technologies/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"general",
+						"backend-technologies",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Offering Distributions ",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/dashboard/general/offering-distributions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"general",
+						"offering-distributions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Skill Demand Anlysis (dynamic params by job name)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/dashboard/jobs/skill/DevOps",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"jobs",
+						"skill",
+						"DevOps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Frequency of  job posting over time ( by query params :mothly, yearly, country)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/dashboard/jobs?month=4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"jobs"
+					],
+					"query": [
+						{
+							"key": "month",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Data ",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"interestedJob\": \"Software Developer\",\r\n    \"interestedSkills\": [\"JavaScript\", \"React\", \"Node.js\"],\r\n    \"careerLevel\": \"Mid-Level\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/interests/add-data",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"interests",
+						"add-data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "frequency-of-experience-levels",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/dashboard/jobs/frequency-of-experience-levels",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"jobs",
+						"frequency-of-experience-levels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "frequency-of-job-by-country",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/dashboard/jobs/frequency-of-job-by-country",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"jobs",
+						"frequency-of-job-by-country"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trend Now",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/dashboard/jobs/trend/DevOps",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"jobs",
+						"trend",
+						"DevOps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "recommended-tech-stack",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/company/get-company?company_name=DE.CI",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"company",
+						"get-company"
+					],
+					"query": [
+						{
+							"key": "company_name",
+							"value": "DE.CI"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAverageRatingOverTimeByCompanyName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/review/get-rating?company_name=Apple",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"review",
+						"get-rating"
+					],
+					"query": [
+						{
+							"key": "company_name",
+							"value": "Apple"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Reviews per each company",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/review/get-reviews",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"review",
+						"get-reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get best compaines",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/review/best-companies?2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"review",
+						"best-companies"
+					],
+					"query": [
+						{
+							"key": "2",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-distribution-by-company-name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/review/get-distribution?company_name=IBM",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"review",
+						"get-distribution"
+					],
+					"query": [
+						{
+							"key": "company_name",
+							"value": "IBM"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-opinion-on-review",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/review/get-opinion-on-review",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"review",
+						"get-opinion-on-review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CI-chat (generate Roadmap)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjY1ZjlhMTIzYTE1MDNlNzVmMjExNDYiLCJ1c2VyTmFtZSI6Im1hemVuIGZ0ZWhhIiwiZW1haWwiOiJtYXpuMzQ5MDNAZ21haWwuY29tIiwiaWF0IjoxNzE3OTU5MTI4LCJleHAiOjE3MTgwNDU1Mjh9.AHs52zkoR-R9aeSKcD-br8AePgQV__eQmre1jh59Zaw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"prompt\":1615\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/ci-chat/generate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"ci-chat",
+						"generate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all static Roadmaps",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjI5YjMyNGU0YmI0NDg2ODJmODgwMTYiLCJ1c2VyTmFtZSI6Im1hemVuIG1vaGFtbWVkIiwiZW1haWwiOiJtYXpuMzQ5MDNAZ21haWwuY29tIiwiaWF0IjoxNzE4MzIwNjQxLCJleHAiOjE3MTg0MDcwNDF9.edC6xbj_pfZMDKTmpZcGcd6Y0hRMbCa1ICTyLFbyfJ8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Data science RoadMap six\",\r\n    \"RoadMap\":{ \"learning_plan\": { \"Stage 1: Introduction to Data Science\": { \"topics\": [ \"What is Data Science?\", \"Data Science Workflow\", \"Key Tools and Technologies\" ], \"resources\": [ \"Coursera Data Science Specialization\", \"Data Science Handbook\", \"Introduction to Data Science (EdX)\" ] }, \"Stage 2: Programming for Data Science\": { \"topics\": [ \"Python for Data Science\", \"R for Data Science\", \"SQL for Data Science\" ], \"resources\": [ \"Python for Data Science (Datacamp)\", \"R Programming (Coursera)\", \"SQL for Data Science (Udacity)\" ] }, \"Stage 3: Data Analysis and Visualization\": { \"topics\": [ \"Exploratory Data Analysis\", \"Data Visualization with Matplotlib and Seaborn\", \"Pandas for Data Manipulation\" ], \"resources\": [ \"Exploratory Data Analysis (Coursera)\", \"Data Visualization with Python (Udacity)\", \"Python Data Science Handbook (Book)\" ] }, \"Stage 4: Statistical Analysis\": { \"topics\": [ \"Descriptive Statistics\", \"Inferential Statistics\", \"Hypothesis Testing\" ], \"resources\": [ \"Statistics for Data Science (Coursera)\", \"Practical Statistics for Data Scientists (Book)\", \"Khan Academy Statistics\" ] }, \"Stage 5: Machine Learning\": { \"topics\": [ \"Introduction to Machine Learning\", \"Supervised and Unsupervised Learning\", \"Model Evaluation and Validation\" ], \"resources\": [ \"Machine Learning (Coursera)\", \"Hands-On Machine Learning with Scikit-Learn (Book)\", \"Machine Learning A-Z (Udemy)\" ] }, \"Stage 6: Real-World Projects\": { \"topics\": [ \"Kaggle Competitions\", \"Capstone Projects\", \"Building a Data Science Portfolio\" ], \"resources\": [ \"Kaggle Learn\", \"Data Science Capstone (Coursera)\", \"Building a Data Science Portfolio (Medium)\" ] } }, \"market_trends\": { \"data_science_adoption\": { \"percentage\": \"Approximately 75% of organizations have adopted data science practices.\", \"source\": \"Gartner\" }, \"year_over_year_demand\": { \"increase\": \"Demand for data scientists has increased by 30% year over year.\", \"source\": \"LinkedIn\" }, \"average_salary\": { \"amount\": { \"junior\": \"$85,000 - $100,000\", \"mid\": \"$105,000 - $130,000\", \"senior\": \"$135,000 - $170,000\" }, \"source\": \"Glassdoor, PayScale, Indeed\" }, \"job_outlook\": { \"data_scientist_2023\": { \"growth\": \"The number of Data Scientist roles is expected to grow significantly from 2020 to 2030.\", \"rapid_growth_positions\": \"Data Scientists, Data Analysts, and Machine Learning Engineers are seeing high demand.\" } }, \"popular_companies_using_data_science\": [ \"Google\", \"Amazon\", \"Microsoft\", \"Facebook\", \"IBM\", \"Netflix\", \"Airbnb\", \"Uber\", \"Salesforce\", \"Apple\" ] } } }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/static-roadmaps/all-roadmaps",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"static-roadmaps",
+						"all-roadmaps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a specific Roadmap by Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjI5YjMyNGU0YmI0NDg2ODJmODgwMTYiLCJ1c2VyTmFtZSI6Im1hemVuIG1vaGFtbWVkIiwiZW1haWwiOiJtYXpuMzQ5MDNAZ21haWwuY29tIiwiaWF0IjoxNzE4MzIwNjQxLCJleHAiOjE3MTg0MDcwNDF9.edC6xbj_pfZMDKTmpZcGcd6Y0hRMbCa1ICTyLFbyfJ8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/static-roadmaps/roadmap/666b781afc711f8e9d9500e2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"static-roadmaps",
+						"roadmap",
+						"666b781afc711f8e9d9500e2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "select and save roadmap",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjI5YjMyNGU0YmI0NDg2ODJmODgwMTYiLCJ1c2VyTmFtZSI6Im1hemVuIG1vaGFtbWVkIiwiZW1haWwiOiJtYXpuMzQ5MDNAZ21haWwuY29tIiwiaWF0IjoxNzE4MzIwNjQxLCJleHAiOjE3MTg0MDcwNDF9.edC6xbj_pfZMDKTmpZcGcd6Y0hRMbCa1ICTyLFbyfJ8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\":\"6629b324e4bb448682f88016\",\r\n    \"roadmapId\":\"666b79c4fc711f8e9d9500f0\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/roadmaps/select-and-save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"roadmaps",
+						"select-and-save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user Roadmaps",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjI5YjMyNGU0YmI0NDg2ODJmODgwMTYiLCJ1c2VyTmFtZSI6Im1hemVuIG1vaGFtbWVkIiwiZW1haWwiOiJtYXpuMzQ5MDNAZ21haWwuY29tIiwiaWF0IjoxNzE4MzIwNjQxLCJleHAiOjE3MTg0MDcwNDF9.edC6xbj_pfZMDKTmpZcGcd6Y0hRMbCa1ICTyLFbyfJ8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/roadmaps/user/6629b324e4bb448682f88016",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"roadmaps",
+						"user",
+						"6629b324e4bb448682f88016"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a specific Roadmap by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjI5YjMyNGU0YmI0NDg2ODJmODgwMTYiLCJ1c2VyTmFtZSI6Im1hemVuIG1vaGFtbWVkIiwiZW1haWwiOiJtYXpuMzQ5MDNAZ21haWwuY29tIiwiaWF0IjoxNzE4MzIwNjQxLCJleHAiOjE3MTg0MDcwNDF9.edC6xbj_pfZMDKTmpZcGcd6Y0hRMbCa1ICTyLFbyfJ8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/roadmaps/user/6629b324e4bb448682f88016/roadmap/666cb4cf9573c6691c266e10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"roadmaps",
+						"user",
+						"6629b324e4bb448682f88016",
+						"roadmap",
+						"666cb4cf9573c6691c266e10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Roadmap by Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjI5YjMyNGU0YmI0NDg2ODJmODgwMTYiLCJ1c2VyTmFtZSI6Im1hemVuIG1vaGFtbWVkIiwiZW1haWwiOiJtYXpuMzQ5MDNAZ21haWwuY29tIiwiaWF0IjoxNzE4MzIwNjQxLCJleHAiOjE3MTg0MDcwNDF9.edC6xbj_pfZMDKTmpZcGcd6Y0hRMbCa1ICTyLFbyfJ8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/roadmaps/user/6629b324e4bb448682f88016/roadmap/666cb4cf9573c6691c266e10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"roadmaps",
+						"user",
+						"6629b324e4bb448682f88016",
+						"roadmap",
+						"666cb4cf9573c6691c266e10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Job count",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjI5YjMyNGU0YmI0NDg2ODJmODgwMTYiLCJ1c2VyTmFtZSI6Im1hemVuIG1vaGFtbWVkIiwiZW1haWwiOiJtYXpuMzQ5MDNAZ21haWwuY29tIiwiaWF0IjoxNzE4MzIwNjQxLCJleHAiOjE3MTg0MDcwNDF9.edC6xbj_pfZMDKTmpZcGcd6Y0hRMbCa1ICTyLFbyfJ8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/dashboard/jobs/count",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"jobs",
+						"count"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Skill count",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjI5YjMyNGU0YmI0NDg2ODJmODgwMTYiLCJ1c2VyTmFtZSI6Im1hemVuIG1vaGFtbWVkIiwiZW1haWwiOiJtYXpuMzQ5MDNAZ21haWwuY29tIiwiaWF0IjoxNzE4MzIwNjQxLCJleHAiOjE3MTg0MDcwNDF9.edC6xbj_pfZMDKTmpZcGcd6Y0hRMbCa1ICTyLFbyfJ8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/dashboard//skills/count",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"",
+						"skills",
+						"count"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get companies Data (name and id)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjI5YjMyNGU0YmI0NDg2ODJmODgwMTYiLCJ1c2VyTmFtZSI6Im1hemVuIG1vaGFtbWVkIiwiZW1haWwiOiJtYXpuMzQ5MDNAZ21haWwuY29tIiwiaWF0IjoxNzE4MzIwNjQxLCJleHAiOjE3MTg0MDcwNDF9.edC6xbj_pfZMDKTmpZcGcd6Y0hRMbCa1ICTyLFbyfJ8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/company/get-companies-data",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"company",
+						"get-companies-data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get company by name",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjI5YjMyNGU0YmI0NDg2ODJmODgwMTYiLCJ1c2VyTmFtZSI6Im1hemVuIG1vaGFtbWVkIiwiZW1haWwiOiJtYXpuMzQ5MDNAZ21haWwuY29tIiwiaWF0IjoxNzE4MzIwNjQxLCJleHAiOjE3MTg0MDcwNDF9.edC6xbj_pfZMDKTmpZcGcd6Y0hRMbCa1ICTyLFbyfJ8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/company/get-company?company_name=RTX",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"company",
+						"get-company"
+					],
+					"query": [
+						{
+							"key": "company_name",
+							"value": "RTX"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
