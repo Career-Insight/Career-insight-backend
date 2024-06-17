@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "http:/localhost:8000/",
+            "url": "http://localhost:8000/",
             "description": "Development server"
         }
     ],
@@ -968,6 +968,516 @@
                     },
                     "500": {
                         "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/review/best-companies/" : {
+            "get": {
+                "summary": "Get the best companies based on average ratings",
+                "description": "Retrieve a list of the best companies based on various average ratings.",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of companies to return",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of best companies",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "_id": {
+                                                "type": "string"
+                                            },
+                                            "avg_overall_rating": {
+                                                "type": "number"
+                                            },
+                                            "avg_work_life_balance": {
+                                                "type": "number"
+                                            },
+                                            "avg_culture_values": {
+                                                "type": "number"
+                                            },
+                                            "avg_diversity_inclusion": {
+                                                "type": "number"
+                                            },
+                                            "avg_career_opportunities": {
+                                                "type": "number"
+                                            },
+                                            "avg_compensation_benefits": {
+                                                "type": "number"
+                                            },
+                                            "avg_senior_management": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "description": "Company not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Company not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/review/get-reviews/" : {
+            "get": {
+                "summary": "Get the number of reviews per company",
+                "description": "Retrieve the number of reviews for each company.",
+                "responses": {
+                    "200": {
+                        "description": "A list of companies with the number of reviews",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "company_name": {
+                                                "type": "string"
+                                            },
+                                            "count": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "/api/v1/review/get-rating/" : {
+            "get": {
+                "summary": "Get average rating over time by company name",
+                "description": "Retrieve the average rating over time for a specified company.",
+                "parameters": [
+                    {
+                        "name": "company_name",
+                        "in": "query",
+                        "description": "The name of the company to retrieve ratings for",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of average ratings over time",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "_id": {
+                                                "type": "string",
+                                                "description": "Year and month in YYYY-MM format"
+                                            },
+                                            "avg_rating": {
+                                                "type": "number",
+                                                "description": "Average rating for the specified time period"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "description": "Company not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Company not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/review/get-distribution/" : {
+            "get": {
+                "summary": "Get sentiment distribution by company name",
+                "description": "Retrieve the sentiment distribution for a specified company.",
+                "parameters": [
+                    {
+                        "name": "company_name",
+                        "in": "query",
+                        "description": "The name of the company to retrieve sentiment distribution for",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of sentiment distribution counts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "_id": {
+                                                "type": "string",
+                                                "description": "Sentiment type"
+                                            },
+                                            "count": {
+                                                "type": "integer",
+                                                "description": "Count of reviews for the sentiment type"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "description": "Company not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Company not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/review/get-get-opinion-on-review/":{
+            "get": {
+                "summary": "Get the opinion on reviews",
+                "description": "Retrieve the average work-life balance rating for companies.",
+                "responses": {
+                    "200": {
+                        "description": "A list of companies with average work-life balance ratings",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "_id": {
+                                                "type": "string",
+                                                "description": "Company name"
+                                            },
+                                            "average_work_life_balance": {
+                                                "type": "number",
+                                                "description": "Average work-life balance rating for the company"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "/api/v1/review/get-career-opportuities/":{
+            "get": {
+                "summary": "Get the average career opportunities rating for companies",
+                "description": "Retrieve the average career opportunities rating for companies.",
+                "responses": {
+                    "200": {
+                        "description": "A list of companies with average career opportunities ratings",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "_id": {
+                                                "type": "string",
+                                                "description": "Company name"
+                                            },
+                                            "average_career_opportunities": {
+                                                "type": "number",
+                                                "description": "Average career opportunities rating for the company"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "/api/v1/review/get-overall-rating/":{
+            "get": {
+                "summary": "Get the overall rating sum by year and company",
+                "description": "Retrieve the sum of overall ratings by year and company.",
+                "responses": {
+                    "200": {
+                        "description": "A list of overall rating sums by year and company",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "year": {
+                                                "type": "number",
+                                                "description": "Year of the overall rating"
+                                            },
+                                            "firm": {
+                                                "type": "string",
+                                                "description": "Company name"
+                                            },
+                                            "overall_rating_sum": {
+                                                "type": "number",
+                                                "description": "Sum of overall ratings for the year and company"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "/api/v1/static-roadmaps/all-roadmaps": {
+            "get": {
+                "summary": "Get all roadmaps",
+                "description": "Retrieve a list of all roadmaps.",
+                "responses": {
+                    "200": {
+                        "description": "A list of all roadmaps",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "/api/v1/static-roadmaps/roadmap/{id}": {
+            "get": {
+                "summary": "Get roadmap by ID",
+                "description": "Retrieve a specific roadmap by its ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the roadmap",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The requested roadmap"
+                    },
+                    "404": {
+                        "description": "Roadmap not found"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "/api/v1/roadmaps/select-and-save":{
+            "post": {
+                "summary": "Select and save user roadmap",
+                "description": "Select and save a user roadmap.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "ID of the user"
+                                    },
+                                    "roadmapId": {
+                                        "type": "string",
+                                        "description": "ID of the roadmap"
+                                    }
+                                },
+                                "required": ["userId", "roadmapId"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Roadmap saved successfully"
+                    },
+                    "404": {
+                        "description": "User or static roadmap not found"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "/api/v1/roadmaps/user/{userId}":{
+            "get": {
+                "summary": "Get all user roadmaps",
+                "description": "Retrieve a list of all roadmaps for a user.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the user",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of all user roadmaps",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "/api/v1/roadmaps/user/{userId}/roadmap/{roadmapId}":{
+            "get": {
+                "summary": "Get user roadmap by ID",
+                "description": "Retrieve a specific user roadmap by its ID.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the user",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "roadmapId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the roadmap",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The requested user roadmap"
+                    },
+                    "404": {
+                        "description": "User roadmap not found"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete user roadmap by ID",
+                "description": "Delete a specific user roadmap by its ID.",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the user",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "roadmapId",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID of the roadmap",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Roadmap deleted successfully"
+                    },
+                    "404": {
+                        "description": "Roadmap not found"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
                     }
                 }
             }
