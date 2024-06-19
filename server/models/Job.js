@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const User = require('./userModel')
+const { sendJobUpdateEmail } = require('../utils/emails')
 
 const jobSchema = new mongoose.Schema({
     job_name: String,
@@ -30,6 +32,17 @@ const jobSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Skill',
     }],
+});
+
+jobSchema.post('save', async function (doc) {
+    try {
+        const users = await User.find({});
+        users.forEach(user => {
+            sendJobUpdateEmail(user);
+        });
+    } catch (error) {
+        console.error('Error sending job update email:', error);
+    }
 });
 
 //jobSchema.plugin(require('mongoose-autopopulate'))

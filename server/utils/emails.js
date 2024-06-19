@@ -43,7 +43,24 @@ const sendWelcomeBackEmail = async (user) => {
     }
 }
 
+const sendJobUpdateEmail = async (user) => {
+    try {
+        const mailOptions = {
+            from: process.env.EMAIL,
+            to: user.email,
+            subject: 'Job Insights Updated!',
+            text: `Hello, ${user.firstName}! The jobs has been updated. Check out the new opportunities now!`
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Job update email sent:', info.response);
+    } catch (error) {
+        throw error;
+    }
+};
+
 module.exports = {
     sendHelloEmail,
-    sendWelcomeBackEmail
+    sendWelcomeBackEmail,
+    sendJobUpdateEmail
 }
