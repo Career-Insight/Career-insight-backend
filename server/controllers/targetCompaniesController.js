@@ -1,5 +1,7 @@
 const Target = require('../models/Target');
 const { StatusCodes } = require("http-status-codes");
+const { escapeRegExp } = require('lodash');
+
 
 
 const getAllProgrammingLanguages = async (req, res, next) => {
@@ -77,8 +79,9 @@ const targetCompaniesBasedOnCity = async (req, res, next) => {
             return res.status(400).send({ error: 'City query parameter is required' });
         }
 
+        const sanitizedCity = escapeRegExp(city);
         const companies = await Target.find({
-            location: { $regex: new RegExp(city, 'i') }
+            location: { $regex: new RegExp(sanitizedCity, 'i') }
         });
 
         res.status(StatusCodes.OK).send(companies);

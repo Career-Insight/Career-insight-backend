@@ -53,7 +53,7 @@ const verify = async (req, res) => {
 
     try {
         const user = await User.findOneAndUpdate(
-            { email, verificationCode},
+            { email, verificationCode :  {$eq: verificationCode }},
             { $unset: { verificationCode: 1 }, isVerified: true },
             { new: true }
         )

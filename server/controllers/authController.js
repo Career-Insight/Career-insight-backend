@@ -64,7 +64,7 @@ const login = async (req, res, next) => {
             throw new CustomError.BadRequestError("All fields must be provide")
         }
         //find user email
-        const user = await User.findOne({ email });
+        const user = await User.findOne( { email: { $eq: email } } );
         //check user email
         if(!user) {
             throw new CustomError.NotFoundError("No user with this Email")

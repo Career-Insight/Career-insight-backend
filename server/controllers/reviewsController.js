@@ -107,7 +107,7 @@ const getAverageRatingOverTimeByCompanyName = async (req, res, next) => {
     try {
         const company_name = req.query.company_name;
 
-        const companyExists = await Company.exists({ company_name });
+        const companyExists = await Company.exists({ company_name: { $eq: company_name } });
         if (!companyExists) {
             return res.send('Company not found');
         }
@@ -162,7 +162,7 @@ const getSentimentDistributionDependOnCompany = async (req, res, next) => {
     try {
         const company_name = req.query.company_name;
 
-        const companyExists = await Company.exists({ company_name });
+        const companyExists = await Company.exists({ company_name: { $eq: company_name } });
         if (!companyExists) {
             return res.send('Company not found');
         }
