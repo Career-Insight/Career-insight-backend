@@ -5,7 +5,6 @@ const { StatusCodes } = require('http-status-codes')
 const dotenv = require("dotenv");
 const Logger = require('../services/loggerServices');
 const { sendHelloEmail } = require('../utils/emails');
-const util = require('util');
 
 const verifyLogger = new Logger({ log:'verify User' })
 
@@ -17,9 +16,7 @@ const configOptions = {
     service: 'gmail',
     host: 'smtp.gmail.com',
     port: 587,
-    tls: {
-        ciphers: "SSLv3",
-    },
+    secure: true,
     auth: {
         user: process.env.EMAIL,
         pass: process.env.APP_PASSWORD
@@ -29,7 +26,6 @@ const configOptions = {
 
 
 const transporter = nodemailer.createTransport(configOptions);
-const sendMail = util.promisify(transporter.sendMail).bind(transporter);
 
 
 async function sendVerificationEmail(user) {
@@ -47,8 +43,20 @@ async function sendVerificationEmail(user) {
             subject: 'Account Verification',
             text: `Your verification code is: ${verificationCode}`
         };
+
+        // Wrap the sendMail in a Promise
+        const sendMailPromise = new Promise((resolve, reject) => {
+            transporter.sendMail(mailOptions, (err, info) => {
+                if (err) {
+                    console.error(err);
+                    reject(err);
+                } else {
+                    resolve(info);
+                }
+            });
+        });
     
-        const info = await sendMail(mailOptions);
+        const info = await sendMailPromise;
         console.log('Verification email sent:', info.response);
     
         return updatedUser;
