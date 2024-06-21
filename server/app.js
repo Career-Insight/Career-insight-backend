@@ -49,7 +49,13 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //Application
 const MongoStore = connectMongo(session);
-app.use(cors());
+const corsOptions = {
+    origin: ['https://career-insight.me'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(helmet())
