@@ -18,7 +18,6 @@ const generateRoadmap = async (req, res, next) => {
     try {
         const {
                 prompt,
-                name,
                 userId
             } = req.body;
 
@@ -50,7 +49,7 @@ const generateRoadmap = async (req, res, next) => {
         const roadmapContent = response.choices[0].message.content;
 
         const newRoadmap = new userRoadMap({
-            name: name,
+            name: `${track} roadmap`,
             completed: false,
             RoadMap: JSON.parse(roadmapContent),
             user_id: userId,

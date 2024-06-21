@@ -12,10 +12,6 @@ const validatePrompt = [
         .trim()
         .isLength({ min: 1 }).withMessage('Prompt cannot be empty')
         .isString().withMessage('Prompt must be a string'),
-        body('name')
-        .isString().withMessage('Name must be a string')
-        .trim()
-        .isLength({ min: 1 }).withMessage('Name cannot be empty'),
     // Validate userId
     body('userId')
         .isMongoId().withMessage('UserId must be a valid MongoDB ObjectId'),

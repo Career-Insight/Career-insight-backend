@@ -1639,6 +1639,61 @@
                     }
                 }
             }
+        },
+        "/api/v1/ci-chat/generate":{
+            "post": {
+                "summary": "Generate roadmap",
+                "description": "Generate a detailed and structured roadmap based on the user prompt.",
+                "requestBody": {
+                    "description": "User prompt and userId",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "prompt": {
+                                        "type": "string",
+                                        "description": "User prompt for generating roadmap"
+                                    },
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "ID of the user"
+                                    }
+                                },
+                                "required": [
+                                    "prompt",
+                                    "userId"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Roadmap generated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "roadmap": {
+                                            "type": "object",
+                                            "description": "Generated roadmap"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
         }
     }
 }
