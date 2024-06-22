@@ -5,6 +5,7 @@ const { redisClient } = require('../utils/redis')
 // get best companies depend on some aspect like culture ,CEO
 
 const findBestCompanies = async (req, res, next) => {
+    const cacheKey = req.originalUrl
     const limit = parseInt(req.query.limit) || 10; // Use query parameter or default to 10
 
     try {
@@ -55,6 +56,9 @@ const findBestCompanies = async (req, res, next) => {
         const result = await Review.aggregate(pipeline);
         if (!result || result.length === 0) {
             console.log('No data found for the aggregation pipeline');}
+        const cacheValue = JSON.stringify( result );
+        await redisClient.set(cacheKey, cacheValue, {EX: 60*60*24}); // expire after one day
+
         res.json(result);
     } catch (error) {
         next(error);    
@@ -62,6 +66,7 @@ const findBestCompanies = async (req, res, next) => {
 }
 
 const numberOfReviewsPerEachCompany = async (req, res, next) => {
+    const cacheKey = req.originalUrl
     try {
         const pipeline = [
             {
@@ -98,6 +103,11 @@ const numberOfReviewsPerEachCompany = async (req, res, next) => {
         if (!result || result.length === 0) {
             console.log('No data found for the aggregation pipeline');
         }
+
+        const cacheValue = JSON.stringify( result );
+        await redisClient.set(cacheKey, cacheValue, {EX: 60*60*24}); // expire after one day
+
+
         res.json(result);
     } catch (error) {
         next(error);

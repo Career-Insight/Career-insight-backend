@@ -1,5 +1,6 @@
 const Company = require('../models/Company');
 const { StatusCodes } = require("http-status-codes");
+const { redisClient } = require('../utils/redis')
 
 //get company data by it's name 
 const getCompanyByName = async (req, res, next) => {
@@ -18,8 +19,11 @@ const getCompanyByName = async (req, res, next) => {
 }
 
 const getAllCompaniesNameandId = async (req, res , next) => {
+    const cacheKey = req.originalUrl
     try {
         const compaines = await Company.find({},'company_name _id')
+        const cacheValue = JSON.stringify( compaines );
+        await redisClient.set(cacheKey, cacheValue, {EX: 60*60*24}); // expire after one day
         res.status(StatusCodes.OK).json(compaines);
     } catch (error) {
         next(error);
