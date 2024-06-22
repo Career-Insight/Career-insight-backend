@@ -20,9 +20,11 @@ const {
     }
 = require('../controllers/dashboardController');
 
+const { cache } = require('../middlewares/cache');
+
 // Stack info route
 
-router.get('/general/programming-languages/top-ten',plTopTen )
+router.get('/general/programming-languages/top-ten',cache,plTopTen )
 router.get('/general/programming-languages/:count',pldynamic )
 
 router.get('/general/frontend-technologies/:count',frontendDistrubtion )
@@ -30,7 +32,7 @@ router.get('/general/backend-technologies/:count',backendDistrubtion )
 router.get('/general/offering-distributions', offeringsDistribution)
 
 // Job posting routes
-router.get('/jobs',frequencyOfJob )
+router.get('/jobs',cache,frequencyOfJob )
 router.get('/jobs/skill/:track_name', frequencyOfSkills)
 router.get('/jobs/frequency-of-experience-levels', frequencyOfExperienceLevels )
 router.get('/jobs/frequency-of-job-by-country', frequencyOfJobByCountry )

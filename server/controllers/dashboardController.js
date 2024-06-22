@@ -4,11 +4,13 @@ const Job = require('../models/Job')
 const Company = require('../models/Company')
 const Location = require('../models/Location')
 const Skill = require('../models/Skill')
+const { redisClient } = require('../utils/redis')
 
 // General
 
 //  Analysis 1: Get Programming Languages Top 10
 const plTopTen = async (req, res, next) => {
+    const cacheKey = req.originalUrl
     try {
         const result = await Result.aggregate([
             { $project: { programming_languages_distribution: { $objectToArray: '$programming_languages_distribution' } } },
@@ -18,7 +20,12 @@ const plTopTen = async (req, res, next) => {
             { $group: { _id: null, top_languages: { $push: '$programming_languages_distribution' } } },
             { $project: { _id: 0, top_languages: 1 } }
         ]);
-        res.status(StatusCodes.OK).json(result[0].top_languages);
+        const finalResult = result[0].top_languages
+
+        const cacheValue = JSON.stringify( finalResult );
+        await redisClient.set(cacheKey, cacheValue, {EX: 60*60*24}); // expire after one day
+
+        res.status(StatusCodes.OK).json(finalResult);
         
     } catch (error) {
         next(error)
