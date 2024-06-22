@@ -1,5 +1,6 @@
 const Review = require('../models/Review');
 const Company = require('../models/Company');
+const { redisClient } = require('../utils/redis')
 
 // get best companies depend on some aspect like culture ,CEO
 
@@ -104,6 +105,7 @@ const numberOfReviewsPerEachCompany = async (req, res, next) => {
 }
 
 const getAverageRatingOverTimeByCompanyName = async (req, res, next) => {
+    const cacheKey = req.originalUrl
     try {
         const company_name = req.query.company_name;
 
@@ -151,6 +153,10 @@ const getAverageRatingOverTimeByCompanyName = async (req, res, next) => {
         if (!result || result.length === 0) {
             console.log('No data found for the aggregation pipeline');
         }
+
+        const cacheValue = JSON.stringify( result );
+        await redisClient.set(cacheKey, cacheValue, {EX: 60*60*24}); // expire after one day
+
         res.json(result);
 
     } catch (error) {

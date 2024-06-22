@@ -11,9 +11,11 @@ const {
     getOverallRatingSumByYearAndCompany
 } = require('../controllers/reviewsController')
 
+const { cache } = require('../middlewares/cache');
+
 router.get('/best-companies', findBestCompanies)
 router.get('/get-reviews', numberOfReviewsPerEachCompany)
-router.get('/get-rating', getAverageRatingOverTimeByCompanyName)
+router.get('/get-rating', cache,getAverageRatingOverTimeByCompanyName)
 router.get('/get-distribution', getSentimentDistributionDependOnCompany)
 router.get('/get-opinion-on-review', getOpinionReviewer)
 router.get('/get-career-opportuities', getCareerOpportunities)

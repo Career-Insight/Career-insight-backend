@@ -10,7 +10,7 @@ const cache = async (req, res, next) =>  {
         const cache = await redisClient.get(cacheKey)
         if (cache !== null) {
             const cachedData = JSON.parse(cache)
-            //console.log(`Cached Data: ${JSON.stringify(cachedData)}`)
+            console.log(`Cached Data: ${JSON.stringify(cachedData)}`)
             return res.status(200).json( cachedData )
         }
         next()
