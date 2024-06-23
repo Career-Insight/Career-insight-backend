@@ -1,52 +1,77 @@
-const OpenAIApi  = require('openai');
+const OpenAIApi = require('openai');
 const userRoadMap = require('../models/RoadMap')
 const User = require("../models/userModel");
+const Market = require('../models/Market')
 require('dotenv').config();
 
 const openai = new OpenAIApi({
     apiKey: process.env.OPENAI_API_KEY
 });
 
-const extractTrackFromPrompt = (prompt) => {
-    // Assuming the track is explicitly mentioned in the prompt and follows a specific pattern
-    // For example, "I am looking to enhance my knowledge and skills in DevOps..."
-    const match = prompt.match(/in (\w+)/i);
-    return match ? match[1] : 'IT field'; // Default to 'IT field' if no match is found
-};
-
 const generateRoadmap = async (req, res, next) => {
     try {
         const {
-                prompt,
-                userId
-            } = req.body;
+            userId,
+            formData
+        } = req.body;
+        console.log(userId, formData);
 
-        const track = extractTrackFromPrompt(prompt);
+        const track = formData.path;
+        console.log(track);
 
-        const systemMessageContent = `
-        As an instructor, help me generate a detailed and structured roadmap or learning path suitable for the current market demand in the ${track} based on the following user prompt:
-        "${prompt}"
-        
-        The roadmap should focus on enhancing knowledge and skills in ${track}. It should be designed for someone who does not have a basic understanding of ${track} but is eager to deepen their expertise. Include the following:
 
-        - Key areas of study and skills development.
-        - Consideration of external factors such as industry trends, technological advancements, and economic conditions.
-        - Data-supported recommendations showcasing the percentage of companies using ${track} practices, the year-over-year increase in demand for ${track}, and the average salary for professionals in ${track}.
+        let focusArea = 'the specified area';
+        const keysToCheck = ['option', 'framework'];
 
-        Please provide the response in JSON format for clarity and readability.
+        for (const key of keysToCheck) {
+            if (formData[track] && formData[track][key]) {
+                focusArea = formData[track][key];
+                break;
+            }
+        }
+        console.log(focusArea);
+        //this need to change 
+        const understandingLevel = formData.understandingLevel || 'basic understanding';
+        console.log(understandingLevel);
+
+        const skillData = await Market.findOne({ track: track.toLowerCase() });
+        console.log(skillData);
+        if (!skillData) {
+            return [];
+        }
+        console.log(skillData);
+
+        const inDemandSkills = Object.keys(skillData.skills)
+        console.log(inDemandSkills);
+        const inDemandSkillsList = inDemandSkills.join(', ');
+        console.log(inDemandSkillsList);
+
+        const userMessageContent = `
+        I am looking to enhance my knowledge and skills in ${track},
+        with a specific focus on ${focusArea}. While ${understandingLevel} in ${track},
+        I am eager to deepen my expertise in this area. I am interested in understanding how external factors such as industry trends, technological advancements,
+        and economic conditions may impact my educational journey in ${track}. Could you please create a roadmap or learning plan that aligns with the current demands of the market?
+        The most in-demand skills for a ${track} include ${inDemandSkillsList}. I would appreciate it if you could support your recommendations with data, specifically showcasing the
+        percentage of companies using ${track} practices, the year-over-year increase in demand for ${track}, and the average salary for ${track}.
+        Please provide your response in JSON format for clarity and readability.
         `;
         const response = await openai.chat.completions.create({
             model: 'ft:gpt-3.5-turbo-0125:personal::9ZHgO91t:ckpt-step-26',
             messages: [
                 {
                     role: 'system',
-                    content: systemMessageContent
+                    content: "As a instructive, help me to generate roadmap or learning path suitable with market demand in IT field.  provide it in a JSON dict"
+                },
+                {
+                    role: 'user',
+                    content: userMessageContent
                 }
             ],
             max_tokens: 1000,
         });
 
         const roadmapContent = response.choices[0].message.content;
+        console.log(roadmapContent);
 
         const newRoadmap = new userRoadMap({
             name: `${track} roadmap`,
