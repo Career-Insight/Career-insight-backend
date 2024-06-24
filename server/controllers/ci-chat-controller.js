@@ -34,24 +34,20 @@ const generateRoadmap = async (req, res, next) => {
         const understandingLevel = formData.understandingLevel || 'basic understanding';
         console.log(understandingLevel);
 
-        const skillData = await Market.findOne({ track: track.toLowerCase() });
-        console.log(skillData);
-        if (!skillData) {
-            return [];
-        }
-        console.log(skillData);
+        const skillData = await Market.findOne({ [`${track}.skills`]: { $exists: true } }, { [`${track}.skills`]: 1, _id: 0 });
+        console.log('Skill Data:', skillData);
 
-        const inDemandSkills = Object.keys(skillData.skills)
+        
+        const inDemandSkills = skillData;
         console.log(inDemandSkills);
-        const inDemandSkillsList = inDemandSkills.join(', ');
-        console.log(inDemandSkillsList);
+
 
         const userMessageContent = `
         I am looking to enhance my knowledge and skills in ${track},
         with a specific focus on ${focusArea}. While ${understandingLevel} in ${track},
         I am eager to deepen my expertise in this area. I am interested in understanding how external factors such as industry trends, technological advancements,
         and economic conditions may impact my educational journey in ${track}. Could you please create a roadmap or learning plan that aligns with the current demands of the market?
-        The most in-demand skills for a ${track} include ${inDemandSkillsList}. I would appreciate it if you could support your recommendations with data, specifically showcasing the
+        The most in-demand skills for a ${track} include ${inDemandSkills}. I would appreciate it if you could support your recommendations with data, specifically showcasing the
         percentage of companies using ${track} practices, the year-over-year increase in demand for ${track}, and the average salary for ${track}.
         Please provide your response in JSON format for clarity and readability.
         `;
@@ -76,7 +72,7 @@ const generateRoadmap = async (req, res, next) => {
         const newRoadmap = new userRoadMap({
             name: `${track} roadmap`,
             completed: false,
-            RoadMap: JSON.parse(roadmapContent),
+            RoadMap: roadmapContent,
             user_id: userId,
         });
 
