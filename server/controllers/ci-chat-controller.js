@@ -14,41 +14,57 @@ const generateRoadmap = async (req, res, next) => {
             userId,
             formData
         } = req.body;
-        console.log(userId, formData);
 
-        const track = formData.path;
+        // Function to filter out empty values recursively
+        const filterEmptyValues = (obj) => {
+            const newObj = {};
+            Object.keys(obj).forEach(key => {
+                const value = obj[key];
+                if (typeof value === 'object' && !Array.isArray(value)) {
+                    const filteredObj = filterEmptyValues(value);
+                    if (Object.keys(filteredObj).length > 0) {
+                        newObj[key] = filteredObj;
+                    }
+                } else if (value !== '' && value !== null) {
+                    newObj[key] = value;
+                }
+            });
+            return newObj;
+        };
+
+        // Filter out empty values from formData
+        const filteredFormData = filterEmptyValues(formData);
+        console.log('filteredFormData:', filteredFormData);
+
+
+        // Transform formData object to string
+        const formDataStr = JSON.stringify(filteredFormData);
+
+        console.log('string data:', formDataStr);
+
+        const { path } = filteredFormData;
+        const track = path;
         console.log(track);
 
 
-        let focusArea = 'the specified area';
-        const keysToCheck = ['option', 'framework'];
 
-        for (const key of keysToCheck) {
-            if (formData[track] && formData[track][key]) {
-                focusArea = formData[track][key];
-                break;
-            }
-        }
-        console.log(focusArea);
-        //this need to change 
-        const understandingLevel = formData.understandingLevel || 'basic understanding';
-        console.log(understandingLevel);
+        let focusArea = 'the specified area';
 
         const skillData = await Market.findOne({ [`${track}.skills`]: { $exists: true } }, { [`${track}.skills`]: 1, _id: 0 });
         console.log('Skill Data:', skillData);
 
         
         const inDemandSkills = skillData;
-        console.log(inDemandSkills);
 
 
         const userMessageContent = `
         I am looking to enhance my knowledge and skills in ${track},
-        with a specific focus on ${focusArea}. While ${understandingLevel} in ${track},
+        with a specific focus on ${focusArea},
         I am eager to deepen my expertise in this area. I am interested in understanding how external factors such as industry trends, technological advancements,
         and economic conditions may impact my educational journey in ${track}. Could you please create a roadmap or learning plan that aligns with the current demands of the market?
         The most in-demand skills for a ${track} include ${inDemandSkills}. I would appreciate it if you could support your recommendations with data, specifically showcasing the
         percentage of companies using ${track} practices, the year-over-year increase in demand for ${track}, and the average salary for ${track}.
+        Original Form Data:${formDataStr}.
         Please provide your response in JSON format for clarity and readability.
         `;
         const response = await openai.chat.completions.create({
